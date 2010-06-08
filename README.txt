@@ -22,4 +22,4 @@ Backlog
 User documentation
 ------------------
 This README will be updated with information on how to build, install and use
-the software. User documentation is not prioritated at this stage.
+the software. User documentation is not prioritized at this stage.
