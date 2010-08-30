@@ -1,17 +1,18 @@
 #include "MainFrame.hpp"
 #include "util.hpp"
-#include <wx/xrc/xmlres.h>
 #include <wx/filename.h>
 #include <wx/aboutdlg.h>
 #include <iostream>
 
+enum
+{
+    ID_Quit = 1,
+    ID_About,
+};
+
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-    EVT_MENU(XRCID("menu_exit"),  MainFrame::on_quit)
-    EVT_MENU(XRCID("menu_about"),  MainFrame::on_about)
-    EVT_MENU(XRCID("metalink_add_file"),  MainFrame::on_add_file)
-    EVT_MENU(XRCID("metalink_del_file"),  MainFrame::on_del_file)
-    EVT_MENU(XRCID("metalink_new"),  MainFrame::on_new)
-    EVT_CHOICE(XRCID("file_choice"), MainFrame::on_file_select)
+    EVT_MENU(ID_Quit, MainFrame::on_quit)
+    EVT_MENU(ID_About, MainFrame::on_about)
 END_EVENT_TABLE()
 
 wxString get_resource_filename()
@@ -22,16 +23,60 @@ wxString get_resource_filename()
 }
 
 MainFrame::MainFrame()
+    : wxFrame((wxFrame *)0, -1, wxT(""), wxDefaultPosition, wxDefaultSize)
 {
-    wxXmlResource::Get()->InitAllHandlers();
-    wxXmlResource::Get()->Load(get_resource_filename());
-    wxXmlResource::Get()->LoadFrame(this, (wxFrame*)0, wxT("main_frame"));
-    _notebook = (wxNotebook*)wxWindow::FindWindowByName(wxT("notebook"));
-    _choice = (wxChoice*)wxWindow::FindWindowByName(wxT("file_choice"));
-    _editor.add_listener(this);
-    init_tabs();
-    show_welcome_screen();
-    SetSize(400, 450);
+    create_menu();
+    create_widgets();
+    set_properties();
+    do_layout();
+}
+
+void MainFrame::create_widgets()
+{
+    file_choice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+    notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+    notebook_page_1 = new wxPanel(notebook, wxID_ANY);
+    label_1 = new wxStaticText(notebook_page_1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening an existing metalink\nor adding a file to this one. You can add a file from the metalink menu.\n"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+    notebook_page_2 = new wxPanel(notebook, wxID_ANY);
+    notebook->AddPage(notebook_page_1, wxT("Welcome"));
+    notebook->AddPage(notebook_page_2, wxT("Sources"));
+}
+
+void MainFrame::create_menu()
+{
+    main_menubar = new wxMenuBar();
+    wxMenu* menu_file = new wxMenu();
+    menu_file->Append(wxID_ANY, wxT("New"), wxEmptyString, wxITEM_NORMAL);
+    menu_file->AppendSeparator();
+    menu_file->Append(ID_Quit, wxT("Exit"), wxEmptyString, wxITEM_NORMAL);
+    main_menubar->Append(menu_file, wxT("File"));
+    wxMenu* menu_metalink = new wxMenu();
+    menu_metalink->Append(wxID_ANY, wxT("Add file..."), wxEmptyString, wxITEM_NORMAL);
+    menu_metalink->Append(wxID_ANY, wxT("Remove file..."), wxEmptyString, wxITEM_NORMAL);
+    main_menubar->Append(menu_metalink, wxT("Metalink"));
+    wxMenu* menu_help = new wxMenu();
+    menu_help->Append(ID_About, wxT("About"), wxEmptyString, wxITEM_NORMAL);
+    main_menubar->Append(menu_help, wxT("Help"));
+    SetMenuBar(main_menubar);
+}
+
+void MainFrame::set_properties()
+{
+    SetTitle(wxT("Metalink Editor"));
+    SetSize(wxSize(420, 412));
+}
+
+
+void MainFrame::do_layout()
+{
+    wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* sizer_2 = new wxBoxSizer(wxVERTICAL);
+    sizer_1->Add(file_choice, 0, wxEXPAND, 0);
+    sizer_2->Add(label_1, 1, wxALL|wxEXPAND, 10);
+    notebook_page_1->SetSizer(sizer_2);
+    sizer_1->Add(notebook, 1, wxEXPAND, 0);
+    SetSizer(sizer_1);
+    Layout();
 }
 
 void MainFrame::on_quit(wxCommandEvent& WXUNUSED(event))
@@ -56,7 +101,7 @@ void MainFrame::on_add_file(wxCommandEvent& WXUNUSED(event))
         wxT("Add empty file to metalink")
     );
     if(filename == wxT("")) return;
-    _editor.add_file(filename);
+    // TODO
 }
 
 void MainFrame::on_del_file(wxCommandEvent& WXUNUSED(event))
@@ -67,68 +112,20 @@ void MainFrame::on_del_file(wxCommandEvent& WXUNUSED(event))
         wxOK | wxCANCEL | wxICON_EXCLAMATION
     );
     if(answer == wxCANCEL) return;
-    _editor.remove_file();
+    // TODO
 }
 
 void MainFrame::on_file_select(wxCommandEvent& event)
 {
-    _editor.set_selection(event.GetSelection());
+    // TODO
 }
 
 void MainFrame::on_new(wxCommandEvent& WXUNUSED(event))
 {
-    _editor.reset();
+    // TODO
 }
 
 void MainFrame::update()
 {
-    _choice->Clear();
-    // Show welcome screen?
-    if(_editor.get_file_count() == 0) {
-        show_welcome_screen();
-        return;
-    }
-    show_edit_screen();
-    // Update file choice
-    wxArrayString filenames = _editor.get_filenames();
-    _choice->Append(filenames);
-    _choice->SetSelection(_editor.get_selection());
-}
-
-void MainFrame::show_welcome_screen()
-{
-    hide_tabs();
-    show_tab(0);
-}
-
-void MainFrame::show_edit_screen()
-{
-    hide_tabs();
-    for(int i = 1; i < _tabs.size(); i++) {
-        show_tab(i);
-    }
-}
-
-void MainFrame::init_tabs()
-{
-    int num = (int)_notebook->GetPageCount();
-    for(int i = 0; i < num; i++) {
-        NotebookTab tab;
-        tab.page = _notebook->GetPage(i);
-        tab.text = _notebook->GetPageText(i);
-        _tabs.push_back(tab);
-    }
-}
-
-void MainFrame::show_tab(int i)
-{
-    NotebookTab tab = _tabs.at(i);
-    _notebook->AddPage(tab.page, tab.text);
-}
-
-void MainFrame::hide_tabs()
-{
-    while(_notebook->GetPageCount() > 0) { 
-        _notebook->RemovePage(0);
-    }
+    // TODO
 }

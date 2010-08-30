@@ -1,5 +1,6 @@
 #include "MainFrame.hpp"
 #include <wx/wx.h>
+#include <wx/image.h>
 
 class MetalinkEditorApp: public wxApp
 {
@@ -10,7 +11,8 @@ IMPLEMENT_APP(MetalinkEditorApp)
 
 bool MetalinkEditorApp::OnInit()
 {
-    MainFrame *frame = new MainFrame();
+    wxInitAllImageHandlers();
+    MainFrame* frame = new MainFrame();
     frame->Show(true);
     SetTopWindow(frame);
     return true;
