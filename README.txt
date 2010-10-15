@@ -3,23 +3,17 @@ Metalink Editor 2
 
 This is a rewrite of Metalink Editor 1.x.
 
-Backlog
--------
-* Rename file.
+Planned features
+----------------
+* Multi-file metalinks.
+* Load and save Metalink 4 and Metalink 3.
 * Edit URLs.
-* Edit general file info.
+* Edit basic file info.
 * Edit full file hashes.
-* Show piece hashes (showing & clearing).
-* Save metalink (IETF).
-* Load metalink (IETF).
-* Load metalink version 3.
-* Save metalink version 3 (skip this?).
-* Create user documentation.
-* Add file by scanning a file on the local file system.
-* Support for signatures.
-* Investigate what is missing compared to Metalink Editor 1.x.
+* Show and delete piece hashes.
+* Add file by scanning a file from a local file system.
 
-User documentation
-------------------
-This README will be updated with information on how to build, install and use
-the software. User documentation is not prioritized at this stage.
+Current state
+-------------
+This is a development version and not necessarily useful for production use.
+There is currently no user documentation (will be added later).
