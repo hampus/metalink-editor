@@ -43,19 +43,23 @@ void MainFrame::create_widgets()
     // Create widgets
     file_choice_ = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
     notebook_ = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-    wxPanel* notebook_page_1 = new wxPanel(notebook_, wxID_ANY);
-    wxStaticText* label_1 = new wxStaticText(notebook_page_1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening an existing metalink\nor adding a file to this one. You can add a file from the metalink menu.\n"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-    wxPanel* notebook_page_2 = new wxPanel(notebook_, wxID_ANY);
-    notebook_->AddPage(notebook_page_1, wxT("Welcome"));
-    notebook_->AddPage(notebook_page_2, wxT("Sources"));
-    // Layout widets
-    wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
-    wxBoxSizer* sizer_2 = new wxBoxSizer(wxVERTICAL);
-    sizer_1->Add(file_choice_, 0, wxEXPAND, 0);
-    sizer_2->Add(label_1, 1, wxALL|wxEXPAND, 10);
-    notebook_page_1->SetSizer(sizer_2);
-    sizer_1->Add(notebook_, 1, wxEXPAND, 0);
-    SetSizer(sizer_1);
+    if(editor_.empty()) {
+        wxPanel* notebook_page1 = new wxPanel(notebook_, wxID_ANY);
+        wxStaticText* label1 = new wxStaticText(notebook_page1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening\nan existing metalink or adding a file to this one. You can\nadd a file from the metalink menu."), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+        notebook_->AddPage(notebook_page1, wxT("Start"));
+        // Layout
+        wxBoxSizer* sizer2 = new wxBoxSizer(wxVERTICAL);
+        sizer2->Add(label1, 1, wxALL|wxEXPAND, 10);
+        notebook_page1->SetSizer(sizer2);
+    } else {
+        wxPanel* notebook_page2 = new wxPanel(notebook_, wxID_ANY);
+        notebook_->AddPage(notebook_page2, wxT("Sources"));
+    }
+    // Layout
+    wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+    sizer1->Add(file_choice_, 0, wxEXPAND, 0);
+    sizer1->Add(notebook_, 1, wxEXPAND, 0);
+    SetSizerAndFit(sizer1);
     Layout();
 }
 

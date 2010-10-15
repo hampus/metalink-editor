@@ -1,6 +1,7 @@
 #ifndef MAINFRAME_HPP
 #define MAINFRAME_HPP
 
+#include "MetalinkEditor.hpp"
 #include "MetalinkEditorListener.hpp"
 #include <wx/wx.h>
 #include <wx/image.h>
@@ -28,6 +29,7 @@ private:
     void create_widgets();
     wxChoice* file_choice_;
     wxNotebook* notebook_;
+    MetalinkEditor editor_;
     DECLARE_EVENT_TABLE()
 };
 

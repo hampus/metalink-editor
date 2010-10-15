@@ -13,7 +13,7 @@ FIND_PACKAGE(wxWidgets REQUIRED xrc xml adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp MainFrame.hpp util.cpp util.hpp common.hpp)
+SET(SRCS main.cpp MainFrame.cpp MetalinkEditor.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
