@@ -26,14 +26,8 @@ public:
 private:
     void create_menu();
     void create_widgets();
-    void set_properties();
-    void do_layout();
-    wxMenuBar* main_menubar;
-    wxChoice* file_choice;
-    wxStaticText* label_1;
-    wxPanel* notebook_page_1;
-    wxPanel* notebook_page_2;
-    wxNotebook* notebook;
+    wxChoice* file_choice_;
+    wxNotebook* notebook_;
     DECLARE_EVENT_TABLE()
 };
 

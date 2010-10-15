@@ -13,7 +13,7 @@ FIND_PACKAGE(wxWidgets REQUIRED xrc xml adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp MainFrame.hpp util.cpp util.hpp)
+SET(SRCS main.cpp MainFrame.cpp MainFrame.hpp util.cpp util.hpp common.hpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
@@ -23,8 +23,6 @@ TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES})
 # Installation
 IF(WIN32)
     INSTALL(TARGETS metalinkeditor DESTINATION .)
-    INSTALL(FILES resources.xrc DESTINATION .)
 ELSE()
     INSTALL(TARGETS metalinkeditor DESTINATION bin)
-    INSTALL(FILES resources.xrc DESTINATION share/metalinkeditor)
 ENDIF()

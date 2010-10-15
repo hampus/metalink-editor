@@ -1,50 +1,28 @@
 #include "MainFrame.hpp"
 #include "util.hpp"
+#include "common.hpp"
 #include <wx/filename.h>
 #include <wx/aboutdlg.h>
 #include <iostream>
-
-enum
-{
-    ID_Quit = 1,
-    ID_About,
-};
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(ID_Quit, MainFrame::on_quit)
     EVT_MENU(ID_About, MainFrame::on_about)
 END_EVENT_TABLE()
 
-wxString get_resource_filename()
-{
-    wxStandardPaths stdp = get_stdpaths();
-    wxFileName filename(stdp.GetDataDir(), wxT("resources.xrc"));
-    return filename.GetFullPath();
-}
-
 MainFrame::MainFrame()
     : wxFrame((wxFrame *)0, -1, wxT(""), wxDefaultPosition, wxDefaultSize)
 {
     create_menu();
     create_widgets();
-    set_properties();
-    do_layout();
-}
-
-void MainFrame::create_widgets()
-{
-    file_choice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-    notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-    notebook_page_1 = new wxPanel(notebook, wxID_ANY);
-    label_1 = new wxStaticText(notebook_page_1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening an existing metalink\nor adding a file to this one. You can add a file from the metalink menu.\n"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-    notebook_page_2 = new wxPanel(notebook, wxID_ANY);
-    notebook->AddPage(notebook_page_1, wxT("Welcome"));
-    notebook->AddPage(notebook_page_2, wxT("Sources"));
+    // Set properties
+    SetTitle(wxT("Metalink Editor"));
+    SetSize(wxSize(420, 412));
 }
 
 void MainFrame::create_menu()
 {
-    main_menubar = new wxMenuBar();
+    wxMenuBar* main_menubar = new wxMenuBar();
     wxMenu* menu_file = new wxMenu();
     menu_file->Append(wxID_ANY, wxT("New"), wxEmptyString, wxITEM_NORMAL);
     menu_file->AppendSeparator();
@@ -60,21 +38,23 @@ void MainFrame::create_menu()
     SetMenuBar(main_menubar);
 }
 
-void MainFrame::set_properties()
+void MainFrame::create_widgets()
 {
-    SetTitle(wxT("Metalink Editor"));
-    SetSize(wxSize(420, 412));
-}
-
-
-void MainFrame::do_layout()
-{
+    // Create widgets
+    file_choice_ = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+    notebook_ = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+    wxPanel* notebook_page_1 = new wxPanel(notebook_, wxID_ANY);
+    wxStaticText* label_1 = new wxStaticText(notebook_page_1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening an existing metalink\nor adding a file to this one. You can add a file from the metalink menu.\n"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+    wxPanel* notebook_page_2 = new wxPanel(notebook_, wxID_ANY);
+    notebook_->AddPage(notebook_page_1, wxT("Welcome"));
+    notebook_->AddPage(notebook_page_2, wxT("Sources"));
+    // Layout widets
     wxBoxSizer* sizer_1 = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* sizer_2 = new wxBoxSizer(wxVERTICAL);
-    sizer_1->Add(file_choice, 0, wxEXPAND, 0);
+    sizer_1->Add(file_choice_, 0, wxEXPAND, 0);
     sizer_2->Add(label_1, 1, wxALL|wxEXPAND, 10);
     notebook_page_1->SetSizer(sizer_2);
-    sizer_1->Add(notebook, 1, wxEXPAND, 0);
+    sizer_1->Add(notebook_, 1, wxEXPAND, 0);
     SetSizer(sizer_1);
     Layout();
 }
@@ -88,7 +68,7 @@ void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))
 {
     wxAboutDialogInfo info;
     info.SetName(_T("Metalink Editor"));
-    info.SetVersion(_T("2.0pre0"));
+    info.SetVersion(_T("2.0dev"));
     info.SetDescription(_T("This is a preview of Metalink Editor 2.0"));
     info.AddDeveloper(_T("Hampus Wessman <hampus.wessman@gmail.com>"));
     wxAboutBox(info);
