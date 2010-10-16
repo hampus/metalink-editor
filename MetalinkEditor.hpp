@@ -4,7 +4,7 @@
 class MetalinkEditor
 {
 public:
-    bool empty();
+    bool is_empty();
 };
 
 #endif

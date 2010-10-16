@@ -4,7 +4,8 @@
 
 class MetalinkEditorApp: public wxApp
 {
-    virtual bool OnInit();
+    bool OnInit();
+    wxString GetAppName();
 };
 
 IMPLEMENT_APP(MetalinkEditorApp)
@@ -16,4 +17,9 @@ bool MetalinkEditorApp::OnInit()
     frame->Show(true);
     SetTopWindow(frame);
     return true;
+}
+
+wxString MetalinkEditorApp::GetAppName()
+{
+    return wxT("metalinkeditor");
 }

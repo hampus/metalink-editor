@@ -1,6 +1,6 @@
 #include "MetalinkEditor.hpp"
 
-bool MetalinkEditor::empty()
+bool MetalinkEditor::is_empty()
 {
     return true;
 }
