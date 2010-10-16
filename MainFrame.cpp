@@ -1,5 +1,6 @@
 #include "MainFrame.hpp"
 #include "LicenseFrame.hpp"
+#include "StartPanel.hpp"
 #include "util.hpp"
 #include "common.hpp"
 #include <wx/filename.h>
@@ -17,7 +18,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame()
-    : wxFrame((wxFrame *)0, -1, wxT(""), wxDefaultPosition, wxDefaultSize)
+    : wxFrame((wxFrame*)0, -1, wxT(""), wxDefaultPosition, wxDefaultSize)
 {
     create_menu();
     create_widgets();
@@ -68,18 +69,14 @@ void MainFrame::update_start(bool force)
     if(force || (!start_ && editor_.is_empty())) {
         // Switch to start page
         notebook_->DeleteAllPages();
-        wxPanel* notebook_page1 = new wxPanel(notebook_, wxID_ANY);
-        wxStaticText* label1 = new wxStaticText(notebook_page1, wxID_ANY, wxT("Welcome to Metalink Editor 2\n\nThis is an empty metalink. Get started by either opening\nan existing metalink or adding a file to this one. You can\nadd a file from the metalink menu."), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-        notebook_->AddPage(notebook_page1, wxT("Start"));
-        wxBoxSizer* sizer2 = new wxBoxSizer(wxVERTICAL);
-        sizer2->Add(label1, 1, wxALL|wxEXPAND, 10);
-        notebook_page1->SetSizer(sizer2);
+        wxPanel* start_panel = new StartPanel(notebook_);
+        notebook_->AddPage(start_panel, wxT("Start"));
         start_ = true;
     } else if(force || (start_ && !editor_.is_empty())) {
         // Switch to regular user interface
         notebook_->DeleteAllPages();
-        wxPanel* notebook_page2 = new wxPanel(notebook_, wxID_ANY);
-        notebook_->AddPage(notebook_page2, wxT("Sources"));
+        source_panel_ = new SourcePanel(notebook_, editor_);
+        notebook_->AddPage(source_panel_, wxT("Sources"));
         start_ = false;
     }
 }
@@ -93,11 +90,15 @@ void MainFrame::update()
         file_choice_->Append(editor_.get_filename(i));
     }
     file_choice_->SetSelection(editor_.get_selection());
+    // Update panels
+    if(!start_) {
+        source_panel_->update();
+    }
 }
 
 void MainFrame::on_quit(wxCommandEvent& WXUNUSED(event))
 {
-    Close(true);
+    Close();
 }
 
 void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))

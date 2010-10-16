@@ -1,12 +1,12 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(metalinkeditor)
 
-set(CMAKE_BUILD_TYPE Release)
+#SET(CMAKE_BUILD_TYPE Release)
 
 # Compiler flags
-if(CMAKE_COMPILER_IS_GNUCXX)
-    list(APPEND CMAKE_EXE_LINKER_FLAGS -s)
-endif()
+#IF(CMAKE_COMPILER_IS_GNUCXX)
+#    list(APPEND CMAKE_EXE_LINKER_FLAGS -s)
+#ENDIF()
 
 # Config header
 configure_file (
@@ -20,7 +20,7 @@ FIND_PACKAGE(wxWidgets REQUIRED xrc xml adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp MetalinkEditor.cpp MetalinkFile.cpp util.cpp)
+SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp MetalinkEditor.cpp MetalinkFile.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
