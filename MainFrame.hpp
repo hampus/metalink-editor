@@ -23,9 +23,11 @@ public:
 private:
     void create_menu();
     void create_widgets();
+    void update_start(bool force=false);
     wxChoice* file_choice_;
     wxNotebook* notebook_;
     MetalinkEditor editor_;
+    bool start_; // Are we showing the "start page"?
     DECLARE_EVENT_TABLE()
 };
 

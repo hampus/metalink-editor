@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(metalink-editor)
+PROJECT(metalinkeditor)
 
 # Config header
 configure_file (
@@ -13,7 +13,7 @@ FIND_PACKAGE(wxWidgets REQUIRED xrc xml adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp MetalinkEditor.cpp util.cpp)
+SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp MetalinkEditor.cpp MetalinkFile.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
