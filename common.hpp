@@ -4,10 +4,7 @@
 // Widget IDs
 enum
 {
-    ID_Quit = 1,
-    ID_About,
-    ID_License,
-    ID_New,
+    ID_License = 1,
     ID_AddFile,
     ID_DelFile,
     ID_FileChoice

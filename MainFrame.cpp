@@ -8,10 +8,10 @@
 #include <iostream>
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-    EVT_MENU(ID_Quit, MainFrame::on_quit)
-    EVT_MENU(ID_About, MainFrame::on_about)
+    EVT_MENU(wxID_EXIT, MainFrame::on_quit)
+    EVT_MENU(wxID_ABOUT, MainFrame::on_about)
     EVT_MENU(ID_License, MainFrame::on_license)
-    EVT_MENU(ID_New, MainFrame::on_new)
+    EVT_MENU(wxID_NEW, MainFrame::on_new)
     EVT_MENU(ID_AddFile, MainFrame::on_add_file)
     EVT_MENU(ID_DelFile, MainFrame::on_del_file)
     EVT_CHOICE(ID_FileChoice, MainFrame::on_file_select)
@@ -35,9 +35,9 @@ void MainFrame::create_menu()
 {
     wxMenuBar* main_menubar = new wxMenuBar();
     wxMenu* menu_file = new wxMenu();
-    menu_file->Append(ID_New, wxT("New"), wxEmptyString, wxITEM_NORMAL);
+    menu_file->Append(wxID_NEW);
     menu_file->AppendSeparator();
-    menu_file->Append(ID_Quit, wxT("Exit"), wxEmptyString, wxITEM_NORMAL);
+    menu_file->Append(wxID_EXIT);
     main_menubar->Append(menu_file, wxT("File"));
     wxMenu* menu_metalink = new wxMenu();
     menu_metalink->Append(ID_AddFile, wxT("Add empty file..."), wxEmptyString, wxITEM_NORMAL);
@@ -45,7 +45,8 @@ void MainFrame::create_menu()
     main_menubar->Append(menu_metalink, wxT("Metalink"));
     wxMenu* menu_help = new wxMenu();
     menu_help->Append(ID_License, wxT("License"), wxEmptyString, wxITEM_NORMAL);
-    menu_help->Append(ID_About, wxT("About"), wxEmptyString, wxITEM_NORMAL);
+    menu_help->AppendSeparator();
+    menu_help->Append(wxID_ABOUT);
     main_menubar->Append(menu_help, wxT("Help"));
     SetMenuBar(main_menubar);
 }
