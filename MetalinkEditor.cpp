@@ -17,7 +17,7 @@ int MetalinkEditor::num_files()
 
 wxString MetalinkEditor::get_filename(int file)
 {
-    return files_.at(file).get_filename();
+    return files_.at(file).filename;
 }
 
 void MetalinkEditor::add_file(wxString filename)
@@ -53,6 +53,17 @@ void MetalinkEditor::remove_file()
     if(selection_ >= files_.size()) selection_ = files_.size() - 1;
     if(selection_ < 0) selection_ = 0;
     // Update
+    update();
+}
+
+MetalinkFile MetalinkEditor::get_file()
+{
+    return files_.at(selection_);
+}
+
+void MetalinkEditor::set_file(MetalinkFile& file)
+{
+    files_.at(selection_) = file;
     update();
 }
 

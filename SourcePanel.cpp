@@ -4,6 +4,9 @@
 BEGIN_EVENT_TABLE(SourcePanel, wxPanel)
     EVT_SIZE(SourcePanel::on_resize)
     EVT_LIST_COL_BEGIN_DRAG(ID_URIList, SourcePanel::on_col_resize)
+    EVT_BUTTON(ID_URIAdd, SourcePanel::on_add)
+    EVT_BUTTON(ID_URIEdit, SourcePanel::on_edit)
+    EVT_BUTTON(ID_URIDel, SourcePanel::on_del)
 END_EVENT_TABLE()
 
 SourcePanel::SourcePanel(wxWindow* parent, MetalinkEditor& editor)
@@ -52,7 +55,30 @@ void SourcePanel::on_col_resize(wxListEvent& event)
     event.Veto();
 }
 
+void SourcePanel::on_add(wxCommandEvent& event)
+{
+    wxString uri = wxGetTextFromUser(wxT("Please enter the new URI:"), wxT("Add URI"));
+    if(uri == wxT("")) return;
+    MetalinkSource source(uri);
+    MetalinkFile file = editor_.get_file();
+    file.sources.push_back(source);
+    editor_.set_file(file);
+}
+
+void SourcePanel::on_edit(wxCommandEvent& event)
+{
+}
+
+void SourcePanel::on_del(wxCommandEvent& event)
+{
+}
+
 void SourcePanel::update()
 {
     list_->DeleteAllItems();
+    MetalinkFile file = editor_.get_file();
+    for(int i = 0; i < file.sources.size(); i++) {
+        MetalinkSource& source = file.sources.at(i);
+        list_->InsertItem(i, source.uri);
+    }
 }

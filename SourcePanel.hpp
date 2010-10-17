@@ -12,6 +12,9 @@ public:
     void update();
     void on_resize(wxSizeEvent& event);
     void on_col_resize(wxListEvent& event);
+    void on_add(wxCommandEvent& event);
+    void on_edit(wxCommandEvent& event);
+    void on_del(wxCommandEvent& event);
 private:
     void create_widgets();
     wxListCtrl* list_;

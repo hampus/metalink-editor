@@ -12,12 +12,14 @@ public:
     MetalinkEditor();
     bool is_empty();
     int num_files();
-    wxString get_filename(int file);
     void add_file(wxString filename);
     void add_listener(MetalinkEditorListener* listener);
+    void remove_file();
     void select(int file);
     int get_selection();
-    void remove_file();
+    wxString get_filename(int file);
+    MetalinkFile get_file();
+    void set_file(MetalinkFile& file);
     void clear();
 private:
     void update();

@@ -1,11 +1,6 @@
 #include "MetalinkFile.hpp"
 
 MetalinkFile::MetalinkFile(wxString filename)
-    : filename_(filename)
+    : filename(filename)
 {
-}
-
-wxString MetalinkFile::get_filename()
-{
-    return filename_;
 }

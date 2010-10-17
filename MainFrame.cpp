@@ -25,7 +25,7 @@ MainFrame::MainFrame()
     update_start(true);
     // Set properties
     SetTitle(wxT("Metalink Editor"));
-    SetSize(wxSize(420, 412));
+    SetSize(wxSize(500, 500));
     // Update interface
     update();
     editor_.add_listener(this);
