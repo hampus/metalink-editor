@@ -1,4 +1,5 @@
 #include "SourcePanel.hpp"
+#include "SourceDialog.hpp"
 #include "common.hpp"
 
 BEGIN_EVENT_TABLE(SourcePanel, wxPanel)
@@ -57,12 +58,13 @@ void SourcePanel::on_col_resize(wxListEvent& event)
 
 void SourcePanel::on_add(wxCommandEvent& event)
 {
-    wxString uri = wxGetTextFromUser(wxT("Please enter the new URI:"), wxT("Add URI"));
-    if(uri == wxT("")) return;
-    MetalinkSource source(uri);
-    MetalinkFile file = editor_.get_file();
-    file.sources.push_back(source);
-    editor_.set_file(file);
+    SourceDialog dlg(wxT("Add URI"), MetalinkSource());
+    if(dlg.ShowModal() == wxID_OK) {
+        MetalinkSource source = dlg.get_source();
+        MetalinkFile file = editor_.get_file();
+        file.add_source(source);
+        editor_.set_file(file);
+    }
 }
 
 void SourcePanel::on_edit(wxCommandEvent& event)
@@ -77,8 +79,9 @@ void SourcePanel::update()
 {
     list_->DeleteAllItems();
     MetalinkFile file = editor_.get_file();
-    for(int i = 0; i < file.sources.size(); i++) {
-        MetalinkSource& source = file.sources.at(i);
-        list_->InsertItem(i, source.uri);
+    std::vector<MetalinkSource> sources = file.get_sources();
+    for(int i = 0; i < sources.size(); i++) {
+        MetalinkSource& source = sources.at(i);
+        list_->InsertItem(i, source.get_uri());
     }
 }

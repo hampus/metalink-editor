@@ -17,7 +17,7 @@ int MetalinkEditor::num_files()
 
 wxString MetalinkEditor::get_filename(int file)
 {
-    return files_.at(file).filename;
+    return files_.at(file).get_filename();
 }
 
 void MetalinkEditor::add_file(wxString filename)

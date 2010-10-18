@@ -16,11 +16,11 @@ configure_file (
 include_directories("${PROJECT_BINARY_DIR}")
 
 # wxWidgets
-FIND_PACKAGE(wxWidgets REQUIRED xrc xml adv html core base )
+FIND_PACKAGE(wxWidgets REQUIRED adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp MetalinkEditor.cpp MetalinkFile.cpp util.cpp)
+SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()

@@ -1,20 +1,20 @@
 #ifndef METALINKFILE_HPP
 #define METALINKFILE_HPP
 
+#include "MetalinkSource.hpp"
 #include <wx/wx.h>
 #include <vector>
 
-struct MetalinkSource
+class MetalinkFile
 {
-    MetalinkSource(wxString uri) : uri(uri) {}
-    wxString uri;
-};
-
-struct MetalinkFile
-{
+public:
     MetalinkFile(wxString filename);
-    std::vector<MetalinkSource> sources;
-    wxString filename;
+    wxString get_filename();
+    void add_source(MetalinkSource source);
+    std::vector<MetalinkSource> get_sources();
+private:
+    std::vector<MetalinkSource> sources_;
+    wxString filename_;
 };
 
 #endif
