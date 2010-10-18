@@ -17,6 +17,7 @@ public:
     void on_del(wxCommandEvent& event);
 private:
     void create_widgets();
+    long get_selected();
     wxListCtrl* list_;
     MetalinkEditor& editor_;
     DECLARE_EVENT_TABLE()

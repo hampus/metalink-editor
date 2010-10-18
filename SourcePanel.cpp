@@ -41,6 +41,11 @@ void SourcePanel::create_widgets()
     Layout();
 }
 
+long SourcePanel::get_selected()
+{
+    return list_->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+}
+
 void SourcePanel::on_resize(wxSizeEvent& event)
 {
     Layout();
@@ -58,7 +63,7 @@ void SourcePanel::on_col_resize(wxListEvent& event)
 
 void SourcePanel::on_add(wxCommandEvent& event)
 {
-    SourceDialog dlg(wxT("Add URI"), MetalinkSource());
+    SourceDialog dlg(wxT("Add source"), MetalinkSource());
     if(dlg.ShowModal() == wxID_OK) {
         MetalinkSource source = dlg.get_source();
         MetalinkFile file = editor_.get_file();
@@ -69,10 +74,29 @@ void SourcePanel::on_add(wxCommandEvent& event)
 
 void SourcePanel::on_edit(wxCommandEvent& event)
 {
+    long selected = get_selected();
+    if(selected == -1) return;
+    MetalinkFile file = editor_.get_file();
+    SourceDialog dlg(wxT("Edit source"), file.get_source(selected));
+    if(dlg.ShowModal() == wxID_OK) {
+        MetalinkSource source = dlg.get_source();
+        file.set_source(selected, source);
+        editor_.set_file(file);
+    }
 }
 
 void SourcePanel::on_del(wxCommandEvent& event)
 {
+    long index = -1;
+    long deleted = 0;
+    MetalinkFile file = editor_.get_file();
+    while(true) {
+        index = list_->GetNextItem(index, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if(index == -1) break;
+        file.del_source(index - deleted);
+        deleted++;
+    }
+    editor_.set_file(file);
 }
 
 void SourcePanel::update()

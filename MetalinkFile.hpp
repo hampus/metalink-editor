@@ -11,6 +11,9 @@ public:
     MetalinkFile(wxString filename);
     wxString get_filename();
     void add_source(MetalinkSource source);
+    void set_source(long index, MetalinkSource source);
+    void del_source(long index);
+    MetalinkSource get_source(long index);
     std::vector<MetalinkSource> get_sources();
 private:
     std::vector<MetalinkSource> sources_;
