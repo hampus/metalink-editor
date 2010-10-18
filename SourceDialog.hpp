@@ -11,6 +11,8 @@ public:
     MetalinkSource get_source();
 private:
     wxString uri_;
+    wxString location_;
+    wxString priority_;
     MetalinkSource source_;
 };
 

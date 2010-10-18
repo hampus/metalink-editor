@@ -83,5 +83,7 @@ void SourcePanel::update()
     for(int i = 0; i < sources.size(); i++) {
         MetalinkSource& source = sources.at(i);
         list_->InsertItem(i, source.get_uri());
+        list_->SetItem(i, 1, source.get_location());
+        list_->SetItem(i, 2, source.get_prioritystr());
     }
 }
