@@ -22,6 +22,7 @@ long MetalinkSource::get_priority()
 
 wxString MetalinkSource::get_prioritystr()
 {
+    if(priority_ == 0) return wxString(wxT(""));
     return wxString::Format(wxT("%li"), priority_);
 }
 

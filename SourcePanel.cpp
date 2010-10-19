@@ -8,6 +8,8 @@ BEGIN_EVENT_TABLE(SourcePanel, wxPanel)
     EVT_BUTTON(ID_URIAdd, SourcePanel::on_add)
     EVT_BUTTON(ID_URIEdit, SourcePanel::on_edit)
     EVT_BUTTON(ID_URIDel, SourcePanel::on_del)
+    EVT_LIST_ITEM_ACTIVATED(ID_URIList, SourcePanel::on_activate)
+    EVT_LIST_KEY_DOWN(ID_URIList, SourcePanel::on_key)
 END_EVENT_TABLE()
 
 SourcePanel::SourcePanel(wxWindow* parent, MetalinkEditor& editor)
@@ -25,15 +27,15 @@ void SourcePanel::create_widgets()
     list_->InsertColumn(1, wxT("Location"));
     list_->InsertColumn(2, wxT("Priority"));
     // Buttons
-    wxButton* btnAdd = new wxButton(this, ID_URIAdd, wxT("Add"));
-    wxButton* btnEdit = new wxButton(this, ID_URIEdit, wxT("Edit"));
-    wxButton* btnDelete = new wxButton(this, ID_URIDel, wxT("Delete"));
+    wxButton* btn_add = new wxButton(this, ID_URIAdd, wxT("Add"));
+    wxButton* btn_edit = new wxButton(this, ID_URIEdit, wxT("Edit"));
+    wxButton* btn_delete = new wxButton(this, ID_URIDel, wxT("Delete"));
     // Layout
     wxBoxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
     sizer2->AddStretchSpacer();
-    sizer2->Add(btnAdd);
-    sizer2->Add(btnEdit);
-    sizer2->Add(btnDelete);
+    sizer2->Add(btn_add);
+    sizer2->Add(btn_edit);
+    sizer2->Add(btn_delete);
     wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
     sizer1->Add(list_, 1, wxEXPAND, 0);
     sizer1->Add(sizer2, 0, wxEXPAND, 0);
@@ -61,6 +63,16 @@ void SourcePanel::on_col_resize(wxListEvent& event)
     event.Veto();
 }
 
+void SourcePanel::on_activate(wxListEvent& event)
+{
+    edit();
+}
+
+void SourcePanel::on_key(wxListEvent& event)
+{
+    if(event.GetKeyCode() == WXK_DELETE) delete_sources();
+}
+
 void SourcePanel::on_add(wxCommandEvent& event)
 {
     SourceDialog dlg(wxT("Add source"), MetalinkSource());
@@ -74,18 +86,15 @@ void SourcePanel::on_add(wxCommandEvent& event)
 
 void SourcePanel::on_edit(wxCommandEvent& event)
 {
-    long selected = get_selected();
-    if(selected == -1) return;
-    MetalinkFile file = editor_.get_file();
-    SourceDialog dlg(wxT("Edit source"), file.get_source(selected));
-    if(dlg.ShowModal() == wxID_OK) {
-        MetalinkSource source = dlg.get_source();
-        file.set_source(selected, source);
-        editor_.set_file(file);
-    }
+    edit();
 }
 
 void SourcePanel::on_del(wxCommandEvent& event)
+{
+    delete_sources();
+}
+
+void SourcePanel::delete_sources()
 {
     long index = -1;
     long deleted = 0;
@@ -97,6 +106,19 @@ void SourcePanel::on_del(wxCommandEvent& event)
         deleted++;
     }
     editor_.set_file(file);
+}
+
+void SourcePanel::edit()
+{
+    long selected = get_selected();
+    if(selected == -1) return;
+    MetalinkFile file = editor_.get_file();
+    SourceDialog dlg(wxT("Edit source"), file.get_source(selected));
+    if(dlg.ShowModal() == wxID_OK) {
+        MetalinkSource source = dlg.get_source();
+        file.set_source(selected, source);
+        editor_.set_file(file);
+    }
 }
 
 void SourcePanel::update()
