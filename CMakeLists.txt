@@ -30,10 +30,10 @@ TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES})
 # Install
 IF(WIN32)
     INSTALL(TARGETS metalinkeditor DESTINATION .)
-    INSTALL(FILES LICENSE.txt DESTINATION .)
+    INSTALL(FILES LICENSE.txt start.htm DESTINATION .)
 ELSE()
     INSTALL(TARGETS metalinkeditor DESTINATION bin)
-    INSTALL(FILES LICENSE.txt DESTINATION share/metalinkeditor)
+    INSTALL(FILES LICENSE.txt start.htm DESTINATION share/metalinkeditor)
 ENDIF()
 
 # Uninstall
