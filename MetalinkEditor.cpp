@@ -61,6 +61,11 @@ MetalinkFile MetalinkEditor::get_file()
     return files_.at(selection_);
 }
 
+std::vector<MetalinkFile> MetalinkEditor::get_files()
+{
+    return files_;
+}
+
 void MetalinkEditor::set_file(MetalinkFile& file)
 {
     files_.at(selection_) = file;

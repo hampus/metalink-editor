@@ -1,6 +1,7 @@
 #include "MainFrame.hpp"
 #include "LicenseFrame.hpp"
 #include "StartPanel.hpp"
+#include "Metalink4Writer.hpp"
 #include "util.hpp"
 #include "common.hpp"
 #include <wx/filename.h>
@@ -12,6 +13,8 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(wxID_ABOUT, MainFrame::on_about)
     EVT_MENU(ID_License, MainFrame::on_license)
     EVT_MENU(wxID_NEW, MainFrame::on_new)
+    EVT_MENU(wxID_SAVE, MainFrame::on_save)
+    EVT_MENU(wxID_SAVEAS, MainFrame::on_saveas)
     EVT_MENU(ID_AddFile, MainFrame::on_add_file)
     EVT_MENU(ID_DelFile, MainFrame::on_del_file)
     EVT_CHOICE(ID_FileChoice, MainFrame::on_file_select)
@@ -36,6 +39,10 @@ void MainFrame::create_menu()
     wxMenuBar* main_menubar = new wxMenuBar();
     wxMenu* menu_file = new wxMenu();
     menu_file->Append(wxID_NEW);
+    menu_file->Append(wxID_OPEN);
+    menu_file->AppendSeparator();
+    menu_file->Append(wxID_SAVE);
+    menu_file->Append(wxID_SAVEAS);
     menu_file->AppendSeparator();
     menu_file->Append(wxID_EXIT);
     main_menubar->Append(menu_file, wxT("File"));
@@ -106,7 +113,7 @@ void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))
 {
     wxAboutDialogInfo info;
     info.SetName(_T("Metalink Editor"));
-    info.SetVersion(_T("2.0dev"));
+    info.SetVersion(_T("2.0pre"));
     info.SetDescription(_T("This is a preview of Metalink Editor 2.0"));
     info.AddDeveloper(_T("Hampus Wessman"));
     wxAboutBox(info);
@@ -116,6 +123,20 @@ void MainFrame::on_license(wxCommandEvent& WXUNUSED(event))
 {
     LicenseFrame* frame = new LicenseFrame();
     frame->Show(true);
+}
+
+void MainFrame::on_save(wxCommandEvent& WXUNUSED(event))
+{
+    if(filename_.empty()) {
+        saveas();
+    } else {
+        save();
+    }
+}
+
+void MainFrame::on_saveas(wxCommandEvent& WXUNUSED(event))
+{
+    saveas();
 }
 
 void MainFrame::on_add_file(wxCommandEvent& WXUNUSED(event))
@@ -154,4 +175,24 @@ void MainFrame::on_new(wxCommandEvent& WXUNUSED(event))
     );
     if(answer == wxCANCEL) return;
     editor_.clear();
+}
+
+void MainFrame::saveas()
+{
+    wxString filename = wxFileSelector(wxT("Save as"), wxT(""), filename_, wxT("meta4"),
+        wxT("Metalink 4 (*.meta4)|*.meta4|*.metalink|All files (*.*)|*.*"),
+        wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if(filename.empty()) return;
+    if(wxFileName(filename).GetExt().empty()) {
+        filename.Append(wxT(".meta4"));
+    }
+    filename_ = filename;
+    save();
+}
+
+void MainFrame::save()
+{
+    // Save as Metalink 4
+    Metalink4Writer writer(editor_);
+    writer.save(filename_);
 }

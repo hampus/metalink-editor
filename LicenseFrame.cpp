@@ -18,5 +18,5 @@ LicenseFrame::LicenseFrame()
     Layout();
     // Set properties
     SetTitle(wxT("Metalink Editor License"));
-    SetSize(wxSize(650, 500));
+    SetSize(wxSize(650, 450));
 }

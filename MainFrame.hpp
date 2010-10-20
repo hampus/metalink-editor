@@ -16,6 +16,8 @@ public:
     void on_quit(wxCommandEvent& event);
     void on_about(wxCommandEvent& event);
     void on_license(wxCommandEvent& event);
+    void on_save(wxCommandEvent& event);
+    void on_saveas(wxCommandEvent& event);
     void on_add_file(wxCommandEvent& event);
     void on_del_file(wxCommandEvent& event);
     void on_file_select(wxCommandEvent& event);
@@ -25,11 +27,14 @@ private:
     void create_menu();
     void create_widgets();
     void update_start(bool force=false);
+    void saveas();
+    void save();
     wxChoice* file_choice_;
     wxNotebook* notebook_;
     SourcePanel* source_panel_;
     MetalinkEditor editor_;
     bool start_; // Are we showing the start page?
+    wxString filename_;
     DECLARE_EVENT_TABLE()
 };
 

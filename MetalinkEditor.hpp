@@ -19,6 +19,7 @@ public:
     int get_selection();
     wxString get_filename(int file);
     MetalinkFile get_file();
+    std::vector<MetalinkFile> get_files();
     void set_file(MetalinkFile& file);
     void clear();
 private:
