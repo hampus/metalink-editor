@@ -1,8 +1,6 @@
 #include "MainFrame.hpp"
 #include "LicenseFrame.hpp"
 #include "StartPanel.hpp"
-#include "Metalink4Writer.hpp"
-#include "Metalink4Reader.hpp"
 #include "util.hpp"
 #include "common.hpp"
 #include <wx/filename.h>
@@ -129,10 +127,10 @@ void MainFrame::on_license(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::on_save(wxCommandEvent& WXUNUSED(event))
 {
-    if(filename_.empty()) {
+    if(editor_.get_filename().empty()) {
         saveas();
     } else {
-        save();
+        editor_.save();
     }
 }
 
@@ -181,36 +179,26 @@ void MainFrame::on_new(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::on_open(wxCommandEvent& WXUNUSED(event))
 {
-    wxString filename = wxFileSelector(wxT("Open"), wxT(""), filename_, wxT("meta4"),
+    wxString filename = wxFileSelector(wxT("Open"), wxT(""), editor_.get_filename(), wxT("meta4"),
         wxT("Metalink 4 (*.meta4)|*.meta4|Metalink 3 (*.metalink)|*.metalink|All files (*.*)|*.*"),
         wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if(filename.empty()) return;
     try {
-        Metalink4Reader reader(editor_);
-        reader.load(filename);
-        filename_ = filename;
+        editor_.open(filename);
     } catch(MetalinkLoadError& e) {
-        editor_.clear();
         wxLogError(wxT("Could not load metalink: ") + wxString(e.what(), wxConvUTF8));
     }
 }
 
 void MainFrame::saveas()
 {
-    wxString filename = wxFileSelector(wxT("Save as"), wxT(""), filename_, wxT("meta4"),
+    wxString filename = wxFileSelector(wxT("Save as"), wxT(""), editor_.get_filename(), wxT("meta4"),
         wxT("Metalink 4 (*.meta4)|*.meta4|All files (*.*)|*.*"),
         wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
     if(filename.empty()) return;
     if(wxFileName(filename).GetExt().empty()) {
         filename.Append(wxT(".meta4"));
     }
-    filename_ = filename;
-    save();
-}
-
-void MainFrame::save()
-{
-    // Save as Metalink 4
-    Metalink4Writer writer(editor_);
-    writer.save(filename_);
+    editor_.set_filename(filename);
+    editor_.save();
 }

@@ -29,13 +29,11 @@ private:
     void create_widgets();
     void update_start(bool force=false);
     void saveas();
-    void save();
     wxChoice* file_choice_;
     wxNotebook* notebook_;
     SourcePanel* source_panel_;
     MetalinkEditor editor_;
     bool start_; // Are we showing the start page?
-    wxString filename_;
     DECLARE_EVENT_TABLE()
 };
 

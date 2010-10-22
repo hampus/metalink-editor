@@ -28,16 +28,4 @@ private:
     } state_;
 };
 
-class MetalinkLoadError: public std::exception
-{
-public:
-    MetalinkLoadError(const char* msg = "Failed to load Metalink.") : msg_(msg) {}
-    virtual const char* what() const throw()
-    {
-        return msg_;
-    }
-private:
-    const char* msg_;
-};
-
 #endif

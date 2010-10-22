@@ -1,4 +1,6 @@
 #include "MetalinkEditor.hpp"
+#include "Metalink4Writer.hpp"
+#include "Metalink4Reader.hpp"
 
 MetalinkEditor::MetalinkEditor()
 {
@@ -77,6 +79,16 @@ void MetalinkEditor::set_file(MetalinkFile& file)
     update();
 }
 
+wxString MetalinkEditor::get_filename()
+{
+    return filename_;
+}
+
+void MetalinkEditor::set_filename(wxString filename)
+{
+    filename_ = filename;
+}
+
 void MetalinkEditor::update()
 {
     for(int i = 0; i < listeners_.size(); i++) {
@@ -84,9 +96,29 @@ void MetalinkEditor::update()
     }
 }
 
+void MetalinkEditor::save()
+{
+    if(filename_.empty()) return;
+    Metalink4Writer writer(*this);
+    writer.save(filename_);
+}
+
+void MetalinkEditor::open(wxString filename)
+{
+    try {
+        Metalink4Reader reader(*this);
+        reader.load(filename);
+        filename_ = filename;
+    } catch(MetalinkLoadError& e) {
+        clear();
+        throw e;
+    }
+}
+
 void MetalinkEditor::clear()
 {
     files_.clear();
+    filename_.clear();
     selection_ = 0;
     update();
 }

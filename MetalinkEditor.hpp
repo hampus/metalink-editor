@@ -22,12 +22,29 @@ public:
     MetalinkFile get_file();
     std::vector<MetalinkFile> get_files();
     void set_file(MetalinkFile& file);
+    wxString get_filename();
+    void set_filename(wxString filename);
+    void save();
+    void open(wxString filename);
     void clear();
 private:
     void update();
     std::vector<MetalinkFile> files_;
     std::vector<MetalinkEditorListener*> listeners_;
     int selection_;
+    wxString filename_;
+};
+
+class MetalinkLoadError: public std::exception
+{
+public:
+    MetalinkLoadError(const char* msg = "Failed to load Metalink.") : msg_(msg) {}
+    virtual const char* what() const throw()
+    {
+        return msg_;
+    }
+private:
+    const char* msg_;
 };
 
 #endif
