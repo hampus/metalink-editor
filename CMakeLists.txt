@@ -20,20 +20,20 @@ FIND_PACKAGE(wxWidgets REQUIRED adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp Metalink4Writer.cpp util.cpp)
+SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp Metalink4Writer.cpp Metalink4Reader.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
 ADD_EXECUTABLE(metalinkeditor WIN32 ${SRCS})
-TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES})
+TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} expat)
 
 # Install
 IF(WIN32)
     INSTALL(TARGETS metalinkeditor DESTINATION .)
-    INSTALL(FILES LICENSE.txt start.htm DESTINATION .)
+    INSTALL(FILES LICENSE.txt legal.htm start.htm DESTINATION .)
 ELSE()
     INSTALL(TARGETS metalinkeditor DESTINATION bin)
-    INSTALL(FILES LICENSE.txt start.htm DESTINATION share/metalinkeditor)
+    INSTALL(FILES LICENSE.txt legal.htm start.htm DESTINATION share/metalinkeditor)
 ENDIF()
 
 # Uninstall

@@ -22,7 +22,12 @@ wxString MetalinkEditor::get_filename(int file)
 
 void MetalinkEditor::add_file(wxString filename)
 {
-    files_.push_back(MetalinkFile(filename));
+    add_file(MetalinkFile(filename));
+}
+
+void MetalinkEditor::add_file(MetalinkFile file)
+{
+    files_.push_back(file);
     selection_ = files_.size() - 1;
     update();
 }

@@ -13,6 +13,7 @@ public:
     bool is_empty();
     int num_files();
     void add_file(wxString filename);
+    void add_file(MetalinkFile file);
     void add_listener(MetalinkEditorListener* listener);
     void remove_file();
     void select(int file);

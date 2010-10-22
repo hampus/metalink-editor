@@ -8,7 +8,7 @@
 class MetalinkFile
 {
 public:
-    MetalinkFile(wxString filename);
+    MetalinkFile(wxString filename = wxT(""));
     wxString get_filename();
     void add_source(MetalinkSource source);
     void set_source(long index, MetalinkSource source);

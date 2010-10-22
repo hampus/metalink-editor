@@ -16,12 +16,13 @@ public:
     void on_quit(wxCommandEvent& event);
     void on_about(wxCommandEvent& event);
     void on_license(wxCommandEvent& event);
+    void on_new(wxCommandEvent& event);
+    void on_open(wxCommandEvent& event);
     void on_save(wxCommandEvent& event);
     void on_saveas(wxCommandEvent& event);
     void on_add_file(wxCommandEvent& event);
     void on_del_file(wxCommandEvent& event);
     void on_file_select(wxCommandEvent& event);
-    void on_new(wxCommandEvent& event);
     void update();
 private:
     void create_menu();

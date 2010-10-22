@@ -7,7 +7,7 @@ LicenseFrame::LicenseFrame()
 {
     // License file
     wxStandardPaths stdpaths = get_stdpaths();
-    wxFileName file(stdpaths.GetDataDir(), wxT("LICENSE.txt"));
+    wxFileName file(stdpaths.GetDataDir(), wxT("legal.htm"));
     // Create HTML widget
     wxHtmlWindow* htmlwin = new wxHtmlWindow(this);
     htmlwin->LoadFile(file);
@@ -17,6 +17,6 @@ LicenseFrame::LicenseFrame()
     SetSizerAndFit(sizer1);
     Layout();
     // Set properties
-    SetTitle(wxT("Metalink Editor License"));
-    SetSize(wxSize(650, 450));
+    SetTitle(wxT("Legal information"));
+    SetSize(wxSize(650, 500));
 }
