@@ -19,13 +19,17 @@ include_directories("${PROJECT_BINARY_DIR}")
 FIND_PACKAGE(wxWidgets REQUIRED adv html core base )
 INCLUDE(${wxWidgets_USE_FILE})
 
+# Expat
+FIND_PACKAGE(EXPAT REQUIRED)
+INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIRS})
+
 # Build application
 SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp Metalink4Writer.cpp Metalink4Reader.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
 ADD_EXECUTABLE(metalinkeditor WIN32 ${SRCS})
-TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} expat)
+TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES})
 
 # Install
 IF(WIN32)
