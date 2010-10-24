@@ -30,9 +30,10 @@ MainFrame::MainFrame()
 #if defined(__WXMSW__)
     wxIcon icon(wxT("metalink"), wxBITMAP_TYPE_ICO_RESOURCE);
 #else
-    //wxBitmap bmp(wxT("metalink.png"), wxBITMAP_TYPE_ANY);
+    wxFileName icon_name(get_stdpaths().GetDataDir(), wxT("metalink.png"));
+    wxBitmap bmp(icon_name.GetFullPath(), wxBITMAP_TYPE_ANY);
     wxIcon icon;
-    //icon.CopyFromBitmap(bmp);
+    icon.CopyFromBitmap(bmp);
 #endif
     SetIcon(icon);
     // Set properties
