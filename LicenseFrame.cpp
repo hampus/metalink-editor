@@ -18,5 +18,5 @@ LicenseFrame::LicenseFrame()
     Layout();
     // Set properties
     SetTitle(wxT("Legal information"));
-    SetSize(wxSize(650, 500));
+    SetSize(wxSize(675, 500));
 }

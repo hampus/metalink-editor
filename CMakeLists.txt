@@ -23,6 +23,14 @@ INCLUDE(${wxWidgets_USE_FILE})
 FIND_PACKAGE(EXPAT REQUIRED)
 INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIRS})
 
+# MinGW workaround
+if(MINGW)
+  set(CMAKE_RC_COMPILER_INIT windres)
+  ENABLE_LANGUAGE(RC)
+  SET(CMAKE_RC_COMPILE_OBJECT
+    "<CMAKE_RC_COMPILER> -O coff <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
+endif(MINGW)
+
 # Build application
 SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp Metalink4Writer.cpp Metalink4Reader.cpp util.cpp)
 IF(WIN32)
