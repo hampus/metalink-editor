@@ -26,6 +26,15 @@ MainFrame::MainFrame()
     create_menu();
     create_widgets();
     update_start(true);
+    // Set icon
+#if defined(__WXMSW__)
+    wxIcon icon(wxT("metalink"), wxBITMAP_TYPE_ICO_RESOURCE);
+#else
+    //wxBitmap bmp(wxT("metalink.png"), wxBITMAP_TYPE_ANY);
+    wxIcon icon;
+    //icon.CopyFromBitmap(bmp);
+#endif
+    SetIcon(icon);
     // Set properties
     SetTitle(wxT("Metalink Editor"));
     SetSize(wxSize(600, 550));

@@ -1,1 +1,2 @@
+metalink ICON "metalink.ico"
 #include "wx/msw/wx.rc"

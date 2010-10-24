@@ -45,7 +45,7 @@ IF(WIN32)
     INSTALL(FILES LICENSE.txt legal.htm start.htm DESTINATION .)
 ELSE()
     INSTALL(TARGETS metalinkeditor DESTINATION bin)
-    INSTALL(FILES LICENSE.txt legal.htm start.htm DESTINATION share/metalinkeditor)
+    INSTALL(FILES LICENSE.txt legal.htm start.htm metalink.png DESTINATION share/metalinkeditor)
 ENDIF()
 
 # Uninstall
