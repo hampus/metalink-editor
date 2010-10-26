@@ -1,0 +1,5 @@
+Metalink Editor 2 Contributors
+==============================
+
+Hampus Wessman (http://github.com/hampus)
+Tatsuhiro Tsujikawa (http://github.com/tatsuhiro-t)

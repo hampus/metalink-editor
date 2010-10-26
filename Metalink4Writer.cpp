@@ -76,34 +76,34 @@ void Metalink4Writer::close_start()
 namespace {
 // Escapes characters not allowed in XML documents and returns new
 // escaped string.
-wxString xmlEscape(const wxString& src)
+wxString xml_escape(const wxString& src)
 {
-  wxString dest;
-  for(wxString::const_iterator i = src.begin(), eoi = src.end();
-      i != eoi; ++i) {
-    const wxChar ch = *i;
-    if(ch == wxT('<')) {
-      dest += wxT("&lt;");
-    } else if(ch == wxT('>')) {
-      dest += wxT("&gt;");
-    } else if(ch == wxT('&')) {
-      dest += wxT("&amp;");
-    } else if(ch == wxT('\'')) {
-      dest += wxT("&#39;");
-    } else if(ch == wxT('"')) {
-      dest += wxT("&quot;");
-    } else {
-      dest += ch;
+    wxString dest;
+    for(wxString::const_iterator i = src.begin(), eoi = src.end();
+            i != eoi; ++i) {
+        const wxChar ch = *i;
+        if(ch == wxT('<')) {
+            dest += wxT("&lt;");
+        } else if(ch == wxT('>')) {
+            dest += wxT("&gt;");
+        } else if(ch == wxT('&')) {
+            dest += wxT("&amp;");
+        } else if(ch == wxT('\'')) {
+            dest += wxT("&#39;");
+        } else if(ch == wxT('"')) {
+            dest += wxT("&quot;");
+        } else {
+            dest += ch;
+        }
     }
-  }
-  return dest;
+    return dest;
 }
 }
 
 void Metalink4Writer::end(wxString element, wxString value)
 {
     write(wxT(">"), false);
-    write(xmlEscape(value), false);
+    write(xml_escape(value), false);
     write(wxT("</"), false);
     write(element, false);
     write(wxT(">\n"), false);
@@ -122,6 +122,6 @@ void Metalink4Writer::addattr(wxString name, wxString value)
     write(wxT(" "), false);
     write(name, false);
     write(wxT("=\""), false);
-    write(xmlEscape(value), false);
+    write(xml_escape(value), false);
     write(wxT("\""), false);
 }
