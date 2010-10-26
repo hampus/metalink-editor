@@ -23,12 +23,15 @@ INCLUDE(${wxWidgets_USE_FILE})
 FIND_PACKAGE(EXPAT REQUIRED)
 INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIRS})
 
-# MinGW workaround
+# MinGW
 if(MINGW)
+  # Resource compilation
   set(CMAKE_RC_COMPILER_INIT windres)
   ENABLE_LANGUAGE(RC)
   SET(CMAKE_RC_COMPILE_OBJECT
     "<CMAKE_RC_COMPILER> -O coff <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
+  # Compiler flags
+  SET(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import)
 endif(MINGW)
 
 # Build application
