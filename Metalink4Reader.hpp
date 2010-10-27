@@ -2,11 +2,12 @@
 #define METALINK4READER_HPP
 
 #include "MetalinkEditor.hpp"
+#include "XmlContentHandler.hpp"
 #include <wx/wx.h>
 #include <string>
 #include <map>
 
-class Metalink4Reader
+class Metalink4Reader : public XmlContentHandler
 {
 public:
     Metalink4Reader(MetalinkEditor& editor);

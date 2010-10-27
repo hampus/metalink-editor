@@ -35,7 +35,9 @@ if(MINGW)
 endif(MINGW)
 
 # Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp Metalink4Writer.cpp Metalink4Reader.cpp util.cpp)
+SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp
+    SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
+    Metalink4Writer.cpp Metalink4Reader.cpp XmlParser.cpp util.cpp)
 IF(WIN32)
     SET(SRCS ${SRCS} windows.rc)
 ENDIF()
