@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-using namespace std;
+namespace {
 
 void StartElementHandler(void* userData, const char* name, const char** attrs);
 void EndElementHandler(void* userData, const char* name);
@@ -28,7 +28,8 @@ public:
     }
 
     void parse(wxString filename) {
-        ifstream in(filename.mb_str(wxConvFile), ofstream::in | ofstream::binary);
+        std::ifstream in(filename.mb_str(wxConvFile),
+                         std::ofstream::in | std::ofstream::binary);
         if(in.fail()) throw MetalinkLoadError();
         char buf[4096];
         XML_Status result;
@@ -72,9 +73,9 @@ void StartElementHandler(void* userData, const char* name, const char** attrs)
 {
     XmlParser* parser = static_cast<XmlParser*>(userData);
     try {
-        map<string, wxString> attr_map;
+        std::map<std::string, wxString> attr_map;
         while(*attrs) {
-            attr_map[string(*attrs)] = wxString(*(attrs+1), wxConvUTF8);
+            attr_map[std::string(*attrs)] = wxString(*(attrs+1), wxConvUTF8);
             attrs += 2;
         }
         parser->start_element(wxString(name, wxConvUTF8), attr_map);
@@ -105,6 +106,8 @@ void CharacterDataHandler(void* userData, const char* s, int len)
         XML_StopParser(parser->get_parser(), false);
     }
 }
+
+} /* end namespace */
 
 Metalink4Reader::Metalink4Reader(MetalinkEditor& editor)
     : editor_(editor)

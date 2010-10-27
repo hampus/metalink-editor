@@ -124,7 +124,7 @@ void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))
     wxAboutDialogInfo info;
     info.SetName(_T("Metalink Editor"));
     info.SetVersion(_T("2.0pre"));
-    info.SetDescription(_T("This is a preview of Metalink Editor 2.0"));
+    info.SetDescription(_T("This is a preview of Metalink Editor 2"));
     info.AddDeveloper(_T("Hampus Wessman"));
     wxAboutBox(info);
 }

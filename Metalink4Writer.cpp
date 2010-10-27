@@ -1,7 +1,5 @@
 #include "Metalink4Writer.hpp"
 
-using namespace std;
-
 Metalink4Writer::Metalink4Writer(MetalinkEditor& editor)
     : editor_(editor)
 {
@@ -14,12 +12,14 @@ Metalink4Writer::~Metalink4Writer()
 
 void Metalink4Writer::save(wxString filename)
 {
-    out_.open(filename.mb_str(wxConvFile), ofstream::out | ofstream::binary | ofstream::trunc);
+    using std::ofstream;
+    out_.open(filename.mb_str(wxConvFile),
+              ofstream::out | ofstream::binary | ofstream::trunc);
     indent_ = 0;
     write(wxT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     write(wxT("<metalink xmlns=\"urn:ietf:params:xml:ns:metalink\">\n"));
     indent_++;
-    vector<MetalinkFile> files = editor_.get_files();
+    std::vector<MetalinkFile> files = editor_.get_files();
     for(int i = 0; i < files.size(); i++) {
         write(files.at(i));
     }
@@ -32,7 +32,7 @@ void Metalink4Writer::write(MetalinkFile& file)
     start(wxT("file"));
     addattr(wxT("name"), file.get_filename());
     close_start();
-    vector<MetalinkSource> sources = file.get_sources();
+    std::vector<MetalinkSource> sources = file.get_sources();
     for(int i = 0; i < sources.size(); i++) {
         write(sources.at(i));
     }
