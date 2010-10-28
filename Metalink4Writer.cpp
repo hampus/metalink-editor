@@ -10,7 +10,7 @@ Metalink4Writer::~Metalink4Writer()
     if(out_.is_open()) out_.close();
 }
 
-void Metalink4Writer::save(wxString filename)
+void Metalink4Writer::save(const wxString& filename)
 {
     using std::ofstream;
     out_.open(filename.mb_str(wxConvFile),
@@ -19,27 +19,29 @@ void Metalink4Writer::save(wxString filename)
     write(wxT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     write(wxT("<metalink xmlns=\"urn:ietf:params:xml:ns:metalink\">\n"));
     indent_++;
-    std::vector<MetalinkFile> files = editor_.get_files();
-    for(int i = 0; i < files.size(); i++) {
-        write(files.at(i));
+    const std::vector<MetalinkFile>& files = editor_.get_files();
+    for(std::vector<MetalinkFile>::const_iterator i = files.begin(),
+            eoi = files.end(); i != eoi; ++i) {
+        write(*i);
     }
     indent_--;
     write(wxT("</metalink>\n"));
 }
 
-void Metalink4Writer::write(MetalinkFile& file)
+void Metalink4Writer::write(const MetalinkFile& file)
 {
     start(wxT("file"));
     addattr(wxT("name"), file.get_filename());
     close_start();
-    std::vector<MetalinkSource> sources = file.get_sources();
-    for(int i = 0; i < sources.size(); i++) {
-        write(sources.at(i));
+    const std::vector<MetalinkSource>& sources = file.get_sources();
+    for(std::vector<MetalinkSource>::const_iterator i = sources.begin(),
+            eoi = sources.end(); i != eoi; ++i) {
+        write(*i);
     }
     end(wxT("file"));
 }
 
-void Metalink4Writer::write(MetalinkSource& source)
+void Metalink4Writer::write(const MetalinkSource& source)
 {
     start(wxT("url"));
     if(!source.get_location().empty()) {
@@ -51,7 +53,7 @@ void Metalink4Writer::write(MetalinkSource& source)
     end(wxT("url"), source.get_uri());
 }
 
-void Metalink4Writer::write(wxString data, bool indent)
+void Metalink4Writer::write(const wxString& data, bool indent)
 {
     if(indent) {
         for(int i = 0; i < indent_; i++) {
@@ -61,7 +63,7 @@ void Metalink4Writer::write(wxString data, bool indent)
     out_ << data.mb_str(wxConvUTF8);
 }
 
-void Metalink4Writer::start(wxString element)
+void Metalink4Writer::start(const wxString& element)
 {
     write(wxT("<"));
     write(element, false);
@@ -100,7 +102,7 @@ wxString xml_escape(const wxString& src)
 }
 }
 
-void Metalink4Writer::end(wxString element, wxString value)
+void Metalink4Writer::end(const wxString& element, const wxString& value)
 {
     write(wxT(">"), false);
     write(xml_escape(value), false);
@@ -109,7 +111,7 @@ void Metalink4Writer::end(wxString element, wxString value)
     write(wxT(">\n"), false);
 }
 
-void Metalink4Writer::end(wxString element)
+void Metalink4Writer::end(const wxString& element)
 {
     indent_--;
     write(wxT("</"));
@@ -117,7 +119,7 @@ void Metalink4Writer::end(wxString element)
     write(wxT(">\n"), false);
 }
 
-void Metalink4Writer::addattr(wxString name, wxString value)
+void Metalink4Writer::addattr(const wxString& name, const wxString& value)
 {
     write(wxT(" "), false);
     write(name, false);

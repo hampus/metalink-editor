@@ -10,16 +10,16 @@ class Metalink4Writer
 public:
     Metalink4Writer(MetalinkEditor& editor);
     ~Metalink4Writer();
-    void save(wxString filename);
+    void save(const wxString& filename);
 private:
-    void write(MetalinkFile& file);
-    void write(MetalinkSource& source);
-    void write(wxString data, bool indent=true);
-    void start(wxString element);
+    void write(const MetalinkFile& file);
+    void write(const MetalinkSource& source);
+    void write(const wxString& data, bool indent=true);
+    void start(const wxString& element);
     void close_start();
-    void end(wxString element, wxString value);
-    void end(wxString element);
-    void addattr(wxString name, wxString value);
+    void end(const wxString& element, const wxString& value);
+    void end(const wxString& element);
+    void addattr(const wxString& name, const wxString& value);
     MetalinkEditor& editor_;
     std::ofstream out_;
     int indent_;
