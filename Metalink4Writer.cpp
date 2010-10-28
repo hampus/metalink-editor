@@ -1,4 +1,5 @@
 #include "Metalink4Writer.hpp"
+#include "config.h"
 
 Metalink4Writer::Metalink4Writer(MetalinkEditor& editor)
     : editor_(editor)
@@ -18,6 +19,8 @@ void Metalink4Writer::save(const wxString& filename)
     write(wxT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     write(wxT("<metalink xmlns=\"urn:ietf:params:xml:ns:metalink\">\n"));
     indent_++;
+    wxString generator("MetalinkEditor/" METALINKEDITOR_VERSION, wxConvUTF8);
+    add_element(wxT("generator"), generator);
     const std::vector<MetalinkFile>& files = editor_.get_files();
     for(std::vector<MetalinkFile>::const_iterator i = files.begin(),
             eoi = files.end(); i != eoi; ++i) {
@@ -116,6 +119,13 @@ void Metalink4Writer::end(const wxString& element)
     write(wxT("</"));
     write(element, false);
     write(wxT(">\n"), false);
+}
+
+void Metalink4Writer::add_element(const wxString& element,
+                                  const wxString& value)
+{
+    start(element);
+    end(element, value);
 }
 
 void Metalink4Writer::addattr(const wxString& name, const wxString& value)
