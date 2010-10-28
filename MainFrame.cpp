@@ -3,6 +3,7 @@
 #include "StartPanel.hpp"
 #include "util.hpp"
 #include "common.hpp"
+#include "config.h"
 #include <wx/filename.h>
 #include <wx/aboutdlg.h>
 #include <iostream>
@@ -122,10 +123,10 @@ void MainFrame::on_quit(wxCommandEvent& WXUNUSED(event))
 void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))
 {
     wxAboutDialogInfo info;
-    info.SetName(_T("Metalink Editor"));
-    info.SetVersion(_T("2.0pre"));
-    info.SetDescription(_T("This is a preview of Metalink Editor 2"));
-    info.AddDeveloper(_T("Hampus Wessman"));
+    info.SetName(wxT("Metalink Editor"));
+    info.SetVersion(wxT(METALINKEDITOR_VERSION));
+    info.SetDescription(wxT("This is a development version of Metalink Editor 2"));
+    info.AddDeveloper(wxT("Hampus Wessman"));
     wxAboutBox(info);
 }
 

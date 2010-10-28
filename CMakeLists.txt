@@ -1,19 +1,29 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(metalinkeditor)
 
-#SET(CMAKE_BUILD_TYPE Release)
+SET(METALINKEDITOR_VERSION "2.0dev")
 
-# Compiler flags
-#IF(CMAKE_COMPILER_IS_GNUCXX)
-#    list(APPEND CMAKE_EXE_LINKER_FLAGS -s)
-#ENDIF()
+IF(NOT METALINKEDITOR_CUSTOM_VERSION)
+    SET(METALINKEDITOR_CUSTOM_VERSION CACHE STRING "Custom Metalink Editor version string. Empty = default version string." FORCE)
+ELSE()
+    SET(METALINKEDITOR_VERSION ${METALINKEDITOR_CUSTOM_VERSION})
+ENDIF()
 
 # Config header
 configure_file (
     "${PROJECT_SOURCE_DIR}/config.h.in"
     "${PROJECT_BINARY_DIR}/config.h"
 )
-include_directories("${PROJECT_BINARY_DIR}")
+
+# Build settings
+IF(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel." FORCE)
+ENDIF()
+IF(CMAKE_COMPILER_IS_GNUCXX AND NOT CMAKE_EXE_LINKER_FLAGS_RELEASE)
+    SET(CMAKE_EXE_LINKER_FLAGS_RELEASE -s CACHE STRING "Flags used by the linker." FORCE)
+ENDIF()
+
+INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}")
 
 # wxWidgets
 FIND_PACKAGE(wxWidgets REQUIRED adv html core base )
@@ -24,15 +34,15 @@ FIND_PACKAGE(EXPAT REQUIRED)
 INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIRS})
 
 # MinGW
-if(MINGW)
+IF(MINGW)
   # Resource compilation
-  set(CMAKE_RC_COMPILER_INIT windres)
+  SET(CMAKE_RC_COMPILER_INIT windres)
   ENABLE_LANGUAGE(RC)
   SET(CMAKE_RC_COMPILE_OBJECT
     "<CMAKE_RC_COMPILER> -O coff <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
   # Compiler flags
   SET(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import)
-endif(MINGW)
+ENDIF()
 
 # Build application
 SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp
