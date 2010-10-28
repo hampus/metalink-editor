@@ -7,7 +7,6 @@ Metalink4Writer::Metalink4Writer(MetalinkEditor& editor)
 
 Metalink4Writer::~Metalink4Writer()
 {
-    if(out_.is_open()) out_.close();
 }
 
 void Metalink4Writer::save(const wxString& filename)
