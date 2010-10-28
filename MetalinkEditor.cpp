@@ -8,27 +8,27 @@ MetalinkEditor::MetalinkEditor()
     selection_ = 0;
 }
 
-bool MetalinkEditor::is_empty()
+bool MetalinkEditor::is_empty() const
 {
     return files_.size() == 0;
 }
 
-int MetalinkEditor::num_files()
+int MetalinkEditor::num_files() const
 {
     return files_.size();
 }
 
-wxString MetalinkEditor::get_filename(int file)
+const wxString& MetalinkEditor::get_filename(int file) const
 {
     return files_.at(file).get_filename();
 }
 
-void MetalinkEditor::add_file(wxString filename)
+void MetalinkEditor::add_file(const wxString& filename)
 {
     add_file(MetalinkFile(filename));
 }
 
-void MetalinkEditor::add_file(MetalinkFile file)
+void MetalinkEditor::add_file(const MetalinkFile& file)
 {
     files_.push_back(file);
     selection_ = files_.size() - 1;
@@ -47,7 +47,7 @@ void MetalinkEditor::select(int file)
     update();
 }
 
-int MetalinkEditor::get_selection()
+int MetalinkEditor::get_selection() const
 {
     return selection_;
 }
@@ -64,28 +64,28 @@ void MetalinkEditor::remove_file()
     update();
 }
 
-MetalinkFile MetalinkEditor::get_file()
+const MetalinkFile& MetalinkEditor::get_file() const
 {
     return files_.at(selection_);
 }
 
-std::vector<MetalinkFile> MetalinkEditor::get_files()
+const std::vector<MetalinkFile>& MetalinkEditor::get_files() const
 {
     return files_;
 }
 
-void MetalinkEditor::set_file(MetalinkFile& file)
+void MetalinkEditor::set_file(const MetalinkFile& file)
 {
     files_.at(selection_) = file;
     update();
 }
 
-wxString MetalinkEditor::get_filename()
+const wxString& MetalinkEditor::get_filename() const
 {
     return filename_;
 }
 
-void MetalinkEditor::set_filename(wxString filename)
+void MetalinkEditor::set_filename(const wxString& filename)
 {
     filename_ = filename;
 }
@@ -104,19 +104,19 @@ void MetalinkEditor::save()
     writer.save(filename_);
 }
 
-bool MetalinkEditor::load_metalink4(wxString filename)
+bool MetalinkEditor::load_metalink4(const wxString& filename)
 {
     Metalink4Reader reader(*this);
     return reader.load(filename);
 }
 
-bool MetalinkEditor::load_metalink3(wxString filename)
+bool MetalinkEditor::load_metalink3(const wxString& filename)
 {
     Metalink3Reader reader(*this);
     return reader.load(filename);
 }
 
-void MetalinkEditor::open(wxString filename)
+void MetalinkEditor::open(const wxString& filename)
 {
     try {
         bool loaded = load_metalink4(filename);

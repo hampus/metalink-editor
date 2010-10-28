@@ -6,14 +6,14 @@
 class MetalinkSource
 {
 public:
-    MetalinkSource(wxString uri = wxT(""));
-    wxString get_uri();
-    wxString get_location();
-    long get_priority();
-    wxString get_prioritystr();
-    void set_uri(wxString uri);
-    void set_location(wxString location);
-    void set_priority(wxString priority);
+    MetalinkSource(const wxString& uri = wxT(""));
+    const wxString& get_uri() const;
+    const wxString& get_location() const;
+    long get_priority() const;
+    wxString get_prioritystr() const;
+    void set_uri(const wxString& uri);
+    void set_location(const wxString& location);
+    void set_priority(const wxString& priority);
 private:
     wxString uri_;
     wxString location_;

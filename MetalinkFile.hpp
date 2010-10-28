@@ -8,13 +8,13 @@
 class MetalinkFile
 {
 public:
-    MetalinkFile(wxString filename = wxT(""));
-    wxString get_filename();
-    void add_source(MetalinkSource source);
-    void set_source(long index, MetalinkSource source);
+    MetalinkFile(const wxString& filename = wxT(""));
+    const wxString& get_filename() const;
+    void add_source(const MetalinkSource& source);
+    void set_source(long index, const MetalinkSource& source);
     void del_source(long index);
-    MetalinkSource get_source(long index);
-    std::vector<MetalinkSource> get_sources();
+    const MetalinkSource& get_source(long index) const;
+    const std::vector<MetalinkSource>& get_sources() const;
 private:
     std::vector<MetalinkSource> sources_;
     wxString filename_;

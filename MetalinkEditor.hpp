@@ -10,27 +10,27 @@ class MetalinkEditor
 {
 public:
     MetalinkEditor();
-    bool is_empty();
-    int num_files();
-    void add_file(wxString filename);
-    void add_file(MetalinkFile file);
+    bool is_empty() const;
+    int num_files() const;
+    void add_file(const wxString& filename);
+    void add_file(const MetalinkFile& file);
     void add_listener(MetalinkEditorListener* listener);
     void remove_file();
     void select(int file);
-    int get_selection();
-    wxString get_filename(int file);
-    MetalinkFile get_file();
-    std::vector<MetalinkFile> get_files();
-    void set_file(MetalinkFile& file);
-    wxString get_filename();
-    void set_filename(wxString filename);
+    int get_selection() const;
+    const wxString& get_filename(int file) const;
+    const MetalinkFile& get_file() const;
+    const std::vector<MetalinkFile>& get_files() const;
+    void set_file(const MetalinkFile& file);
+    const wxString& get_filename() const;
+    void set_filename(const wxString& filename);
     void save();
-    void open(wxString filename);
+    void open(const wxString& filename);
     void clear();
 private:
     void update();
-    bool load_metalink4(wxString filename);
-    bool load_metalink3(wxString filename);
+    bool load_metalink4(const wxString& filename);
+    bool load_metalink3(const wxString& filename);
     std::vector<MetalinkFile> files_;
     std::vector<MetalinkEditorListener*> listeners_;
     int selection_;

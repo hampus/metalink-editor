@@ -1,42 +1,42 @@
 #include "MetalinkSource.hpp"
 
-MetalinkSource::MetalinkSource(wxString uri)
+MetalinkSource::MetalinkSource(const wxString& uri)
     : uri_(uri), priority_(0)
 {
 }
 
-wxString MetalinkSource::get_uri()
+const wxString& MetalinkSource::get_uri() const
 {
     return uri_;
 }
 
-wxString MetalinkSource::get_location()
+const wxString& MetalinkSource::get_location() const
 {
     return location_;
 }
 
-long MetalinkSource::get_priority()
+long MetalinkSource::get_priority() const
 {
     return priority_;
 }
 
-wxString MetalinkSource::get_prioritystr()
+wxString MetalinkSource::get_prioritystr() const
 {
     if(priority_ == 0) return wxString(wxT(""));
     return wxString::Format(wxT("%li"), priority_);
 }
 
-void MetalinkSource::set_uri(wxString uri)
+void MetalinkSource::set_uri(const wxString& uri)
 {
     uri_ = uri;
 }
 
-void MetalinkSource::set_location(wxString location)
+void MetalinkSource::set_location(const wxString& location)
 {
     location_ = location;
 }
 
-void MetalinkSource::set_priority(wxString priority)
+void MetalinkSource::set_priority(const wxString& priority)
 {
     if(!priority.ToLong(&priority_)) {
         priority_ = 0;
