@@ -58,8 +58,11 @@ void MetalinkEditor::remove_file()
     // Erase file
     files_.erase(files_.begin() + selection_);
     // Fix selection
-    if(selection_ >= files_.size()) selection_ = files_.size() - 1;
-    if(selection_ < 0) selection_ = 0;
+    if(files_.empty()) {
+        selection_ = 0;
+    } else {
+        if(selection_ >= files_.size()) selection_ = files_.size() - 1;
+    }
     // Update
     update();
 }
