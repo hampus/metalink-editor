@@ -1,6 +1,7 @@
 #include "MetalinkEditor.hpp"
 #include "Metalink4Writer.hpp"
 #include "Metalink4Reader.hpp"
+#include "Metalink3Reader.hpp"
 
 MetalinkEditor::MetalinkEditor()
 {
@@ -103,11 +104,25 @@ void MetalinkEditor::save()
     writer.save(filename_);
 }
 
+bool MetalinkEditor::load_metalink4(wxString filename)
+{
+    Metalink4Reader reader(*this);
+    return reader.load(filename);
+}
+
+bool MetalinkEditor::load_metalink3(wxString filename)
+{
+    Metalink3Reader reader(*this);
+    return reader.load(filename);
+}
+
 void MetalinkEditor::open(wxString filename)
 {
     try {
-        Metalink4Reader reader(*this);
-        bool loaded = reader.load(filename);
+        bool loaded = load_metalink4(filename);
+        if(!loaded) {
+            loaded = load_metalink3(filename);
+        }
         if(!loaded) {
             throw MetalinkLoadError("Unrecognized file format!");
         }

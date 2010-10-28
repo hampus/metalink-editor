@@ -29,6 +29,8 @@ public:
     void clear();
 private:
     void update();
+    bool load_metalink4(wxString filename);
+    bool load_metalink3(wxString filename);
     std::vector<MetalinkFile> files_;
     std::vector<MetalinkEditorListener*> listeners_;
     int selection_;
