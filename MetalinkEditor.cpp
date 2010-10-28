@@ -10,7 +10,7 @@ MetalinkEditor::MetalinkEditor()
 
 bool MetalinkEditor::is_empty() const
 {
-    return files_.size() == 0;
+    return files_.empty();
 }
 
 int MetalinkEditor::num_files() const
@@ -54,7 +54,7 @@ int MetalinkEditor::get_selection() const
 
 void MetalinkEditor::remove_file()
 {
-    if(files_.size() == 0) return;
+    if(files_.empty()) return;
     // Erase file
     files_.erase(files_.begin() + selection_);
     // Fix selection
