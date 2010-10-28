@@ -11,7 +11,7 @@ class Metalink4Reader : public XmlContentHandler
 {
 public:
     Metalink4Reader(MetalinkEditor& editor);
-    void load(wxString filename);
+    bool load(wxString filename);
     void start_element(wxString name, std::map<std::string, wxString> attrs);
     void end_element(wxString name);
     void char_data(wxString data);
@@ -21,6 +21,7 @@ private:
     MetalinkFile file_;
     MetalinkSource source_;
     wxString data_;
+    bool correctversion_;
     enum State {
         STATE_NONE,
         STATE_METALINK,

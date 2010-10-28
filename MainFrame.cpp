@@ -196,7 +196,8 @@ void MainFrame::on_open(wxCommandEvent& WXUNUSED(event))
     try {
         editor_.open(filename);
     } catch(MetalinkLoadError& e) {
-        wxLogError(wxT("Could not load metalink: ") + wxString(e.what(), wxConvUTF8));
+        wxLogError(wxT("Failed to open file: ") +
+                   wxString(e.what(), wxConvUTF8));
     }
 }
 

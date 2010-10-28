@@ -107,7 +107,10 @@ void MetalinkEditor::open(wxString filename)
 {
     try {
         Metalink4Reader reader(*this);
-        reader.load(filename);
+        bool loaded = reader.load(filename);
+        if(!loaded) {
+            throw MetalinkLoadError("Unrecognized file format!");
+        }
         filename_ = filename;
     } catch(MetalinkLoadError& e) {
         clear();

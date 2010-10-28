@@ -6,12 +6,14 @@ Metalink4Reader::Metalink4Reader(MetalinkEditor& editor)
 {
 }
 
-void Metalink4Reader::load(wxString filename)
+bool Metalink4Reader::load(wxString filename)
 {
     editor_.clear();
     state_ = STATE_NONE;
+    correctversion_ = false;
     XmlParser parser(*this);
     parser.parse(filename);
+    return correctversion_;
 }
 
 void Metalink4Reader::start_element(wxString name, std::map<std::string,
@@ -21,6 +23,7 @@ void Metalink4Reader::start_element(wxString name, std::map<std::string,
     switch(state_) {
         case STATE_NONE:
             if(name == wxT("metalink")) {
+                correctversion_ = true;
                 state_ = STATE_METALINK;
             }
         break;
