@@ -16,8 +16,8 @@ bool Metalink3Reader::load(wxString filename)
     return correctversion_;
 }
 
-void Metalink3Reader::start_element(wxString name, std::map<std::string,
-                                    wxString> attrs)
+void Metalink3Reader::start_element(wxString name,
+                                    std::map<std::string, wxString> attrs)
 {
     if(!remove_namespace(name)) return;
     switch(state_) {
@@ -43,7 +43,7 @@ void Metalink3Reader::start_element(wxString name, std::map<std::string,
             }
         break;
         case STATE_RESOURCES:
-            if(name == wxT("url")) {
+            if(name == wxT("url") && attrs["type"] != wxT("bittorrent")) {
                 source_ = MetalinkSource();
                 if(attrs.count("location") == 1) {
                     source_.set_location(attrs["location"]);
