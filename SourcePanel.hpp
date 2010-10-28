@@ -22,6 +22,7 @@ private:
     void edit();
     void delete_sources();
     long get_selected();
+    void update_layout();
     wxListCtrl* list_;
     MetalinkEditor& editor_;
     DECLARE_EVENT_TABLE()

@@ -51,11 +51,18 @@ long SourcePanel::get_selected()
 void SourcePanel::on_resize(wxSizeEvent& event)
 {
     Layout();
-    int width= list_->GetClientSize().GetWidth();
-    if(width < 250) width = 250;
-    list_->SetColumnWidth(0, width - 80*2);
+    // This is needed to get rid of some visual artifacts (wxGTK).
+    update_layout();
+}
+
+void SourcePanel::update_layout()
+{
+    list_->SetColumnWidth(0, wxLIST_AUTOSIZE);
     list_->SetColumnWidth(1, 80);
     list_->SetColumnWidth(2, 80);
+    if(list_->GetColumnWidth(0) < 80) {
+        list_->SetColumnWidth(0, 80);
+    }
 }
 
 void SourcePanel::on_col_resize(wxListEvent& event)
@@ -132,4 +139,5 @@ void SourcePanel::update()
         list_->SetItem(i, 1, source.get_location());
         list_->SetItem(i, 2, source.get_prioritystr());
     }
+    update_layout();
 }
