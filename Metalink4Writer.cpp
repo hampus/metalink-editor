@@ -33,7 +33,7 @@ void Metalink4Writer::save(const wxString& filename)
 void Metalink4Writer::write(const MetalinkFile& file)
 {
     start(wxT("file"));
-    addattr(wxT("name"), file.get_filename());
+    add_attr(wxT("name"), file.get_filename());
     close_start();
     const std::vector<MetalinkSource>& sources = file.get_sources();
     for(std::vector<MetalinkSource>::const_iterator i = sources.begin(),
@@ -47,10 +47,10 @@ void Metalink4Writer::write(const MetalinkSource& source)
 {
     start(wxT("url"));
     if(!source.get_location().empty()) {
-        addattr(wxT("location"), source.get_location());
+        add_attr(wxT("location"), source.get_location());
     }
     if(!source.get_prioritystr().empty()) {
-        addattr(wxT("priority"), source.get_prioritystr());
+        add_attr(wxT("priority"), source.get_prioritystr());
     }
     end(wxT("url"), source.get_uri());
 }
@@ -128,7 +128,7 @@ void Metalink4Writer::add_element(const wxString& element,
     end(element, value);
 }
 
-void Metalink4Writer::addattr(const wxString& name, const wxString& value)
+void Metalink4Writer::add_attr(const wxString& name, const wxString& value)
 {
     write(wxT(" "), false);
     write(name, false);

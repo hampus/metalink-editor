@@ -20,7 +20,7 @@ private:
     void end(const wxString& element, const wxString& value);
     void end(const wxString& element);
     void add_element(const wxString& element, const wxString& value);
-    void addattr(const wxString& name, const wxString& value);
+    void add_attr(const wxString& name, const wxString& value);
     MetalinkEditor& editor_;
     std::ofstream out_;
     int indent_;
