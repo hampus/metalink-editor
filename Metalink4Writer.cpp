@@ -45,14 +45,23 @@ void Metalink4Writer::write(const MetalinkFile& file)
 
 void Metalink4Writer::write(const MetalinkSource& source)
 {
-    start(wxT("url"));
-    if(!source.get_location().empty()) {
-        add_attr(wxT("location"), source.get_location());
+    if(source.is_torrent()) {
+        start(wxT("metaurl"));
+        add_attr(wxT("mediatype"), wxT("torrent"));
+        if(!source.get_prioritystr().empty()) {
+            add_attr(wxT("priority"), source.get_prioritystr());
+        }
+        end(wxT("metaurl"), source.get_uri());
+    } else {
+        start(wxT("url"));
+        if(!source.get_prioritystr().empty()) {
+            add_attr(wxT("priority"), source.get_prioritystr());
+        }
+        if(!source.get_location().empty()) {
+            add_attr(wxT("location"), source.get_location());
+        }
+        end(wxT("url"), source.get_uri());
     }
-    if(!source.get_prioritystr().empty()) {
-        add_attr(wxT("priority"), source.get_prioritystr());
-    }
-    end(wxT("url"), source.get_uri());
 }
 
 void Metalink4Writer::write(const wxString& data, bool indent)

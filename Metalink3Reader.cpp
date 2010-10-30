@@ -43,8 +43,11 @@ void Metalink3Reader::start_element(wxString name,
             }
         break;
         case STATE_RESOURCES:
-            if(name == wxT("url") && attrs["type"] != wxT("bittorrent")) {
+            if(name == wxT("url")) {
                 source_ = MetalinkSource();
+                if(attrs["type"] == wxT("bittorrent")) {
+                    source_.set_torrent(true);
+                }
                 if(attrs.count("location") == 1) {
                     source_.set_location(attrs["location"]);
                 }

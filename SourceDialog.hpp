@@ -7,12 +7,13 @@
 class SourceDialog : public wxDialog
 {
 public:
-    SourceDialog(wxString title, MetalinkSource source);
-    MetalinkSource get_source();
+    SourceDialog(const wxString& title, const MetalinkSource& source);
+    MetalinkSource get_source() const;
 private:
     wxString uri_;
     wxString location_;
     wxString priority_;
+    bool torrent_;
     MetalinkSource source_;
 };
 

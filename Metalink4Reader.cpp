@@ -48,6 +48,14 @@ void Metalink4Reader::start_element(wxString name, std::map<std::string,
                 }
                 state_ = STATE_URL;
             }
+            if(name == wxT("metaurl") && attrs["mediatype"] == wxT("torrent")) {
+                source_ = MetalinkSource();
+                source_.set_torrent(true);
+                if(attrs.count("priority") == 1) {
+                    source_.set_priority(attrs["priority"]);
+                }
+                state_ = STATE_URL;
+            }
         break;
     }
     data_.clear();
@@ -69,7 +77,7 @@ void Metalink4Reader::end_element(wxString name)
             }
         break;
         case STATE_URL:
-            if(name == wxT("url")) {
+            if(name == wxT("url") || name == wxT("metaurl")) {
                 source_.set_uri(data_);
                 file_.add_source(source_);
                 state_ = STATE_FILE;

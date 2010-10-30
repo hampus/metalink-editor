@@ -1,7 +1,7 @@
 #include "MetalinkSource.hpp"
 
 MetalinkSource::MetalinkSource(const wxString& uri)
-    : uri_(uri), priority_(0)
+    : uri_(uri), priority_(0), torrent_(false)
 {
 }
 
@@ -26,6 +26,11 @@ wxString MetalinkSource::get_prioritystr() const
     return wxString::Format(wxT("%li"), priority_);
 }
 
+bool MetalinkSource::is_torrent() const
+{
+    return torrent_;
+}
+
 void MetalinkSource::set_uri(const wxString& uri)
 {
     uri_ = uri;
@@ -43,4 +48,9 @@ void MetalinkSource::set_priority(const wxString& priority)
     }
     if(priority_ < 0) priority_ = 0;
     if(priority_ > 999999) priority_ = 999999;
+}
+
+void MetalinkSource::set_torrent(bool is_torrent)
+{
+    torrent_ = is_torrent;
 }
