@@ -14,7 +14,7 @@ private:
     wxString location_;
     wxString priority_;
     bool torrent_;
-    MetalinkSource source_;
+    const MetalinkSource& source_;
 };
 
 #endif

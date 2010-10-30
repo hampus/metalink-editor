@@ -8,7 +8,7 @@
 class Metalink4Writer
 {
 public:
-    Metalink4Writer(MetalinkEditor& editor);
+    Metalink4Writer(const MetalinkEditor& editor);
     ~Metalink4Writer();
     void save(const wxString& filename);
 private:
@@ -21,7 +21,7 @@ private:
     void end(const wxString& element);
     void add_element(const wxString& element, const wxString& value);
     void add_attr(const wxString& name, const wxString& value);
-    MetalinkEditor& editor_;
+    const MetalinkEditor& editor_;
     std::ofstream out_;
     int indent_;
 };

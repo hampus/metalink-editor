@@ -1,7 +1,7 @@
 #include "Metalink4Writer.hpp"
 #include "config.h"
 
-Metalink4Writer::Metalink4Writer(MetalinkEditor& editor)
+Metalink4Writer::Metalink4Writer(const MetalinkEditor& editor)
     : editor_(editor)
 {
 }
