@@ -6,6 +6,7 @@ enum
 {
     ID_License = 1,
     ID_AddFile,
+    ID_RenameFile,
     ID_DelFile,
     ID_FileChoice,
     ID_URIList,

@@ -17,6 +17,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(wxID_SAVE, MainFrame::on_save)
     EVT_MENU(wxID_SAVEAS, MainFrame::on_saveas)
     EVT_MENU(ID_AddFile, MainFrame::on_add_file)
+    EVT_MENU(ID_RenameFile, MainFrame::on_rename_file)
     EVT_MENU(ID_DelFile, MainFrame::on_del_file)
     EVT_CHOICE(ID_FileChoice, MainFrame::on_file_select)
 END_EVENT_TABLE()
@@ -59,6 +60,7 @@ void MainFrame::create_menu()
     main_menubar->Append(menu_file, wxT("File"));
     wxMenu* menu_metalink = new wxMenu();
     menu_metalink->Append(ID_AddFile, wxT("Add empty file..."), wxEmptyString, wxITEM_NORMAL);
+    menu_metalink->Append(ID_RenameFile, wxT("Rename file..."), wxEmptyString, wxITEM_NORMAL);
     menu_metalink->Append(ID_DelFile, wxT("Remove file..."), wxEmptyString, wxITEM_NORMAL);
     main_menubar->Append(menu_metalink, wxT("Metalink"));
     wxMenu* menu_help = new wxMenu();
@@ -158,6 +160,19 @@ void MainFrame::on_add_file(wxCommandEvent& WXUNUSED(event))
     );
     if(filename == wxT("")) return;
     editor_.add_file(filename);
+}
+
+void MainFrame::on_rename_file(wxCommandEvent& WXUNUSED(event))
+{
+    MetalinkFile file = editor_.get_file();
+    wxString filename = wxGetTextFromUser(
+        wxT("Please enter a file name:"),
+        wxT("Rename file"),
+        file.get_filename()
+    );
+    if(filename == wxT("")) return;
+    file.set_filename(filename);
+    editor_.set_file(file);
 }
 
 void MainFrame::on_del_file(wxCommandEvent& WXUNUSED(event))

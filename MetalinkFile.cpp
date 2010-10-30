@@ -5,6 +5,11 @@ MetalinkFile::MetalinkFile(const wxString& filename)
 {
 }
 
+void MetalinkFile::set_filename(const wxString& filename)
+{
+    filename_ = filename;
+}
+
 const wxString& MetalinkFile::get_filename() const
 {
     return filename_;

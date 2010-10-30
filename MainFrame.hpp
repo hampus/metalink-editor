@@ -21,6 +21,7 @@ public:
     void on_save(wxCommandEvent& event);
     void on_saveas(wxCommandEvent& event);
     void on_add_file(wxCommandEvent& event);
+    void on_rename_file(wxCommandEvent& event);
     void on_del_file(wxCommandEvent& event);
     void on_file_select(wxCommandEvent& event);
     void update();
