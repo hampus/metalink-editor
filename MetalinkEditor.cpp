@@ -1,7 +1,9 @@
 #include "MetalinkEditor.hpp"
 #include "Metalink4Writer.hpp"
+#include "Metalink3Writer.hpp"
 #include "Metalink4Reader.hpp"
 #include "Metalink3Reader.hpp"
+#include <wx/filename.h>
 
 MetalinkEditor::MetalinkEditor()
 {
@@ -103,8 +105,13 @@ void MetalinkEditor::update()
 void MetalinkEditor::save()
 {
     if(filename_.empty()) return;
-    Metalink4Writer writer(*this);
-    writer.save(filename_);
+    if(wxFileName(filename_).GetExt() == wxT("metalink")) {
+        Metalink3Writer writer(*this);
+        writer.save(filename_);
+    } else {
+        Metalink4Writer writer(*this);
+        writer.save(filename_);
+    }
 }
 
 bool MetalinkEditor::load_metalink4(const wxString& filename)

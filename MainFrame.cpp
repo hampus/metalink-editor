@@ -220,7 +220,7 @@ void MainFrame::on_open(wxCommandEvent& WXUNUSED(event))
 void MainFrame::saveas()
 {
     wxString filename = wxFileSelector(wxT("Save as"), wxT(""), editor_.get_filename(), wxT("meta4"),
-        wxT("Metalink 4 (*.meta4)|*.meta4|All files (*.*)|*.*"),
+        wxT("Metalink 4 (*.meta4)|*.meta4|Metalink 3 (*.metalink)|*.metalink|All files (*.*)|*.*"),
         wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
     if(filename.empty()) return;
     if(wxFileName(filename).GetExt().empty()) {
