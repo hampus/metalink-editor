@@ -3,12 +3,6 @@ PROJECT(metalinkeditor)
 
 SET(METALINKEDITOR_VERSION "2.0dev")
 
-IF(NOT METALINKEDITOR_CUSTOM_VERSION)
-    SET(METALINKEDITOR_CUSTOM_VERSION CACHE STRING "Custom Metalink Editor version string. Empty = default version string." FORCE)
-ELSE()
-    SET(METALINKEDITOR_VERSION ${METALINKEDITOR_CUSTOM_VERSION})
-ENDIF()
-
 # Config header
 configure_file (
     "${PROJECT_SOURCE_DIR}/config.h.in"
