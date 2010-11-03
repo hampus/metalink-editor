@@ -38,15 +38,18 @@ IF(MINGW)
   SET(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import)
 ENDIF()
 
-# Build application
-SET(SRCS main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp SourcePanel.cpp
-    SourceDialog.cpp MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
+# Shared source files
+SET(SRCS MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
     MetalinkWriter.cpp Metalink4Writer.cpp Metalink3Writer.cpp
     Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp)
+
+# Build application
+SET(APP_SRCS ${SRCS} main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp
+    SourcePanel.cpp SourceDialog.cpp)
 IF(WIN32)
-    SET(SRCS ${SRCS} windows.rc)
+    SET(APP_SRCS ${APP_SRCS} windows.rc)
 ENDIF()
-ADD_EXECUTABLE(metalinkeditor WIN32 ${SRCS})
+ADD_EXECUTABLE(metalinkeditor WIN32 ${APP_SRCS})
 TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES})
 
 # Install
@@ -65,3 +68,11 @@ CONFIGURE_FILE(
   IMMEDIATE @ONLY
 )
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+# CPPUnit tests
+SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp)
+ADD_EXECUTABLE(runtests WIN32 ${TEST_SRCS})
+TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES}
+    cppunit)
+ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests"
+    DEPENDS runtests)
