@@ -72,7 +72,11 @@ ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 # CPPUnit tests
 SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp)
 ADD_EXECUTABLE(runtests WIN32 ${TEST_SRCS})
-TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES}
-    cppunit)
-ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests"
-    DEPENDS runtests)
+TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES} cppunit)
+IF(CMAKE_COMPILER_IS_GNUCXX)
+    SET_TARGET_PROPERTIES(runtests PROPERTIES
+                          COMPILE_FLAGS "-fprofile-arcs -ftest-coverage"
+                          LINK_FLAGS "-fprofile-arcs -ftest-coverage")
+ENDIF()
+ADD_CUSTOM_TARGET(tests DEPENDS runtests)
+ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)
