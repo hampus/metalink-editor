@@ -73,10 +73,12 @@ ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp)
 ADD_EXECUTABLE(runtests WIN32 EXCLUDE_FROM_ALL ${TEST_SRCS})
 TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES} cppunit)
-IF(CMAKE_COMPILER_IS_GNUCXX)
+ADD_CUSTOM_TARGET(tests DEPENDS runtests)
+ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)
+
+SET(USE_GCOV OFF CACHE BOOL "Enable flags needed by gcov, when building tests?")
+IF(CMAKE_COMPILER_IS_GNUCXX AND ${USE_GCOV})
     SET_TARGET_PROPERTIES(runtests PROPERTIES
                           COMPILE_FLAGS "-fprofile-arcs -ftest-coverage"
                           LINK_FLAGS "-fprofile-arcs -ftest-coverage")
 ENDIF()
-ADD_CUSTOM_TARGET(tests DEPENDS runtests)
-ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)
