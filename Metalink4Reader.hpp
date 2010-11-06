@@ -1,7 +1,7 @@
 #ifndef METALINK4READER_HPP
 #define METALINK4READER_HPP
 
-#include "MetalinkEditor.hpp"
+#include "Metalink.hpp"
 #include "XmlContentHandler.hpp"
 #include <wx/wx.h>
 #include <string>
@@ -10,18 +10,20 @@
 class Metalink4Reader : public XmlContentHandler
 {
 public:
-    Metalink4Reader(MetalinkEditor& editor);
-    bool load(wxString filename);
+    Metalink4Reader();
+    void load(wxString filename);
     void start_element(wxString name, std::map<std::string, wxString> attrs);
     void end_element(wxString name);
     void char_data(wxString data);
+    const Metalink& get_metalink() const;
+    bool is_recognized() const;
 private:
     bool remove_namespace(wxString& name);
-    MetalinkEditor& editor_;
+    Metalink metalink_;
     MetalinkFile file_;
     MetalinkSource source_;
     wxString data_;
-    bool correctversion_;
+    bool recognized_;
     enum State {
         STATE_NONE,
         STATE_METALINK,

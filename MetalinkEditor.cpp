@@ -1,9 +1,4 @@
 #include "MetalinkEditor.hpp"
-#include "Metalink4Writer.hpp"
-#include "Metalink3Writer.hpp"
-#include "Metalink4Reader.hpp"
-#include "Metalink3Reader.hpp"
-#include <wx/filename.h>
 
 MetalinkEditor::MetalinkEditor()
 {
@@ -12,17 +7,17 @@ MetalinkEditor::MetalinkEditor()
 
 bool MetalinkEditor::is_empty() const
 {
-    return files_.empty();
+    return metalink_.is_empty();
 }
 
 int MetalinkEditor::num_files() const
 {
-    return files_.size();
+    return metalink_.num_files();
 }
 
 const wxString& MetalinkEditor::get_filename(int file) const
 {
-    return files_.at(file).get_filename();
+    return metalink_.get_file(file).get_filename();
 }
 
 void MetalinkEditor::add_file(const wxString& filename)
@@ -32,8 +27,8 @@ void MetalinkEditor::add_file(const wxString& filename)
 
 void MetalinkEditor::add_file(const MetalinkFile& file)
 {
-    files_.push_back(file);
-    selection_ = files_.size() - 1;
+    metalink_.add_file(file);
+    selection_ = metalink_.num_files() - 1;
     update();
 }
 
@@ -44,7 +39,7 @@ void MetalinkEditor::add_listener(MetalinkEditorListener* listener)
 
 void MetalinkEditor::select(int file)
 {
-    if(file < 0 || file >= files_.size()) return;
+    if(file < 0 || file >= metalink_.num_files()) return;
     selection_ = file;
     update();
 }
@@ -56,14 +51,13 @@ int MetalinkEditor::get_selection() const
 
 void MetalinkEditor::remove_file()
 {
-    if(files_.empty()) return;
-    // Erase file
-    files_.erase(files_.begin() + selection_);
+    // Remove the file
+    metalink_.remove_file(selection_);
     // Fix selection
-    if(files_.empty()) {
+    if(metalink_.is_empty()) {
         selection_ = 0;
-    } else {
-        if(selection_ >= files_.size()) selection_ = files_.size() - 1;
+    } else if(selection_ >= metalink_.num_files()) {
+        selection_ = metalink_.num_files() - 1;
     }
     // Update
     update();
@@ -71,17 +65,17 @@ void MetalinkEditor::remove_file()
 
 const MetalinkFile& MetalinkEditor::get_file() const
 {
-    return files_.at(selection_);
+    return metalink_.get_file(selection_);
 }
 
 const std::vector<MetalinkFile>& MetalinkEditor::get_files() const
 {
-    return files_;
+    return metalink_.get_files();
 }
 
 void MetalinkEditor::set_file(const MetalinkFile& file)
 {
-    files_.at(selection_) = file;
+    metalink_.set_file(selection_, file);
     update();
 }
 
@@ -105,47 +99,19 @@ void MetalinkEditor::update()
 void MetalinkEditor::save()
 {
     if(filename_.empty()) return;
-    if(wxFileName(filename_).GetExt() == wxT("metalink")) {
-        Metalink3Writer writer(*this);
-        writer.save(filename_);
-    } else {
-        Metalink4Writer writer(*this);
-        writer.save(filename_);
-    }
-}
-
-bool MetalinkEditor::load_metalink4(const wxString& filename)
-{
-    Metalink4Reader reader(*this);
-    return reader.load(filename);
-}
-
-bool MetalinkEditor::load_metalink3(const wxString& filename)
-{
-    Metalink3Reader reader(*this);
-    return reader.load(filename);
+    metalink_.save(filename_);
 }
 
 void MetalinkEditor::open(const wxString& filename)
 {
-    try {
-        bool loaded = load_metalink4(filename);
-        if(!loaded) {
-            loaded = load_metalink3(filename);
-        }
-        if(!loaded) {
-            throw MetalinkLoadError("Unrecognized file format!");
-        }
-        filename_ = filename;
-    } catch(MetalinkLoadError& e) {
-        clear();
-        throw e;
-    }
+    metalink_ = Metalink::load(filename);
+    filename_ = filename;
+    update();
 }
 
 void MetalinkEditor::clear()
 {
-    files_.clear();
+    metalink_.clear();
     filename_.clear();
     selection_ = 0;
     update();

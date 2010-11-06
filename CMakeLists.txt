@@ -43,7 +43,7 @@ IF(MINGW)
 ENDIF()
 
 # Shared source files
-SET(SRCS MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
+SET(SRCS MetalinkEditor.cpp Metalink.cpp MetalinkFile.cpp MetalinkSource.cpp
     MetalinkWriter.cpp Metalink4Writer.cpp Metalink3Writer.cpp
     Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp
     HashContextImpl.cpp HashContext.cpp FileScan.cpp)
@@ -81,10 +81,12 @@ SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp
 ADD_EXECUTABLE(runtests WIN32 EXCLUDE_FROM_ALL ${TEST_SRCS})
 TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES}
   ${OPENSSL_LIBRARIES} cppunit)
-IF(CMAKE_COMPILER_IS_GNUCXX)
+ADD_CUSTOM_TARGET(tests DEPENDS runtests)
+ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)
+
+SET(USE_GCOV OFF CACHE BOOL "Enable flags needed by gcov, when building tests?")
+IF(CMAKE_COMPILER_IS_GNUCXX AND ${USE_GCOV})
     SET_TARGET_PROPERTIES(runtests PROPERTIES
                           COMPILE_FLAGS "-fprofile-arcs -ftest-coverage"
                           LINK_FLAGS "-fprofile-arcs -ftest-coverage")
 ENDIF()
-ADD_CUSTOM_TARGET(tests DEPENDS runtests)
-ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)

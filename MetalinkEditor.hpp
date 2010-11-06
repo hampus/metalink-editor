@@ -1,7 +1,7 @@
 #ifndef METALINKEDITOR_HPP
 #define METALINKEDITOR_HPP
 
-#include "MetalinkFile.hpp"
+#include "Metalink.hpp"
 #include "MetalinkEditorListener.hpp"
 #include <wx/wx.h>
 #include <vector>
@@ -29,24 +29,10 @@ public:
     void clear();
 private:
     void update();
-    bool load_metalink4(const wxString& filename);
-    bool load_metalink3(const wxString& filename);
-    std::vector<MetalinkFile> files_;
     std::vector<MetalinkEditorListener*> listeners_;
+    Metalink metalink_;
     int selection_;
     wxString filename_;
-};
-
-class MetalinkLoadError: public std::exception
-{
-public:
-    MetalinkLoadError(const char* msg = "Failed to load Metalink.") : msg_(msg) {}
-    virtual const char* what() const throw()
-    {
-        return msg_;
-    }
-private:
-    const char* msg_;
 };
 
 #endif
