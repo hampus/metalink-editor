@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metalink xmlns="urn:ietf:params:xml:ns:metalink">
+    <generator>MetalinkEditor/TEST</generator>
+    <file name="test1">
+        <url>http://example.com/</url>
+    </file>
+    <file>
+        <url>http://example.com/</url>
+    </file>
+</metalink>

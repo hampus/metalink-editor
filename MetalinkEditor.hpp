@@ -22,6 +22,7 @@ public:
     const MetalinkFile& get_file() const;
     const std::vector<MetalinkFile>& get_files() const;
     void set_file(const MetalinkFile& file);
+    const Metalink& get_metalink() const;
     const wxString& get_filename() const;
     void set_filename(const wxString& filename);
     void save();

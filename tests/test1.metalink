@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metalink version="3.0" generator="MetalinkEditor/TEST" xmlns="http://www.metalinker.org/">
+    <files>
+        <file name="test1">
+            <resources>
+                <url>http://example.com/</url>
+            </resources>
+        </file>
+        <file name="test2">
+            <resources>
+                <url>http://example.com/</url>
+            </resources>
+        </file>
+    </files>
+</metalink>
