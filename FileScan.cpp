@@ -110,7 +110,9 @@ void FileScan::scan()
             if(accumulated_piece_length == piece_length_) {
                 piece_hashes_.push_back(piece_hash_ctx_->hex_digest());
                 accumulated_piece_length = 0;
-                piece_hash_ctx_.reset();
+                piece_hash_ctx_->reset();
+                piece_hash_ctx_->update(buf+update_bytes,
+                                        read_bytes-update_bytes);
             }
         }
         if(listener_) {
