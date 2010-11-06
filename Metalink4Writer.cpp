@@ -1,7 +1,7 @@
 #include "Metalink4Writer.hpp"
 
-Metalink4Writer::Metalink4Writer(const MetalinkEditor& editor)
-    : editor_(editor)
+Metalink4Writer::Metalink4Writer(const Metalink& metalink)
+    : metalink_(metalink)
 {
 }
 
@@ -12,7 +12,7 @@ void Metalink4Writer::write_metalink()
     add_attr(wxT("xmlns"), wxT("urn:ietf:params:xml:ns:metalink"));
     close_start();
     add_element(wxT("generator"), get_generator());
-    const std::vector<MetalinkFile>& files = editor_.get_files();
+    const std::vector<MetalinkFile>& files = metalink_.get_files();
     for(std::vector<MetalinkFile>::const_iterator i = files.begin(),
             eoi = files.end(); i != eoi; ++i) {
         write_file(*i);

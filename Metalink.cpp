@@ -1,6 +1,9 @@
 #include "Metalink.hpp"
+#include "Metalink4Writer.hpp"
+#include "Metalink3Writer.hpp"
 #include "Metalink4Reader.hpp"
 #include "Metalink3Reader.hpp"
+#include <wx/filename.h>
 
 int Metalink::num_files() const
 {
@@ -41,6 +44,17 @@ const std::vector<MetalinkFile>& Metalink::get_files() const
 void Metalink::clear()
 {
     files_.clear();
+}
+
+void Metalink::save(const wxString& filename)
+{
+    if(wxFileName(filename).GetExt() == wxT("metalink")) {
+        Metalink3Writer writer(*this);
+        writer.save(filename);
+    } else {
+        Metalink4Writer writer(*this);
+        writer.save(filename);
+    }
 }
 
 Metalink Metalink::load(const wxString& filename)

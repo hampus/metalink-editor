@@ -8,12 +8,12 @@
 class Metalink4Writer : public MetalinkWriter
 {
 public:
-    Metalink4Writer(const MetalinkEditor& editor);
+    Metalink4Writer(const Metalink& metalink);
 private:
     void write_metalink();
     void write_file(const MetalinkFile& file);
     void write_source(const MetalinkSource& source);
-    const MetalinkEditor& editor_;
+    const Metalink& metalink_;
 };
 
 #endif

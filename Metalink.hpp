@@ -16,6 +16,7 @@ public:
     const MetalinkFile& get_file(int index) const;
     const std::vector<MetalinkFile>& get_files() const;
     void clear();
+    void save(const wxString& filename);
     static Metalink load(const wxString& filename);
 private:
     static bool load_metalink4(const wxString& filename, Metalink* metalink);

@@ -1,7 +1,7 @@
 #include "Metalink3Writer.hpp"
 
-Metalink3Writer::Metalink3Writer(const MetalinkEditor& editor)
-    : editor_(editor)
+Metalink3Writer::Metalink3Writer(const Metalink& metalink)
+    : metalink_(metalink)
 {
 }
 
@@ -15,7 +15,7 @@ void Metalink3Writer::write_metalink()
     close_start();
     start(wxT("files"));
     close_start();
-    const std::vector<MetalinkFile>& files = editor_.get_files();
+    const std::vector<MetalinkFile>& files = metalink_.get_files();
     for(std::vector<MetalinkFile>::const_iterator i = files.begin(),
             eoi = files.end(); i != eoi; ++i) {
         write_file(*i);
