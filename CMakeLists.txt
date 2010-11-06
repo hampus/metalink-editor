@@ -27,6 +27,10 @@ INCLUDE(${wxWidgets_USE_FILE})
 FIND_PACKAGE(EXPAT REQUIRED)
 INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIRS})
 
+# OpenSSL
+FIND_PACKAGE(OpenSSL REQUIRED)
+INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIRS})
+
 # MinGW
 IF(MINGW)
   # Resource compilation
@@ -41,7 +45,8 @@ ENDIF()
 # Shared source files
 SET(SRCS MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
     MetalinkWriter.cpp Metalink4Writer.cpp Metalink3Writer.cpp
-    Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp)
+    Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp
+    HashContextImpl.cpp HashContext.cpp)
 
 # Build application
 SET(APP_SRCS ${SRCS} main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp
@@ -50,7 +55,8 @@ IF(WIN32)
     SET(APP_SRCS ${APP_SRCS} windows.rc)
 ENDIF()
 ADD_EXECUTABLE(metalinkeditor WIN32 ${APP_SRCS})
-TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES})
+TARGET_LINK_LIBRARIES(metalinkeditor ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES}
+  ${OPENSSL_LIBRARIES})
 
 # Install
 IF(WIN32)
@@ -70,9 +76,11 @@ CONFIGURE_FILE(
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # CPPUnit tests
-SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp)
+SET(TEST_SRCS ${SRCS} tests/main.cpp tests/MetalinkEditorTest.cpp
+    tests/HashContextTest.cpp)
 ADD_EXECUTABLE(runtests WIN32 EXCLUDE_FROM_ALL ${TEST_SRCS})
-TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES} cppunit)
+TARGET_LINK_LIBRARIES(runtests ${wxWidgets_LIBRARIES} ${EXPAT_LIBRARIES}
+  ${OPENSSL_LIBRARIES} cppunit)
 IF(CMAKE_COMPILER_IS_GNUCXX)
     SET_TARGET_PROPERTIES(runtests PROPERTIES
                           COMPILE_FLAGS "-fprofile-arcs -ftest-coverage"
