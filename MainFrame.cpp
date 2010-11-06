@@ -4,8 +4,12 @@
 #include "util.hpp"
 #include "common.hpp"
 #include "config.h"
+#include "FileScan.hpp"
+#include "HashContext.hpp"
+#include "ProgressDialogProgressListener.hpp"
 #include <wx/filename.h>
 #include <wx/aboutdlg.h>
+#include <wx/progdlg.h>
 #include <iostream>
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
@@ -19,6 +23,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(ID_AddFile, MainFrame::on_add_file)
     EVT_MENU(ID_RenameFile, MainFrame::on_rename_file)
     EVT_MENU(ID_DelFile, MainFrame::on_del_file)
+    EVT_MENU(ID_ScanFile, MainFrame::on_scan_file)
     EVT_CHOICE(ID_FileChoice, MainFrame::on_file_select)
 END_EVENT_TABLE()
 
@@ -62,6 +67,7 @@ void MainFrame::create_menu()
     menu_metalink->Append(ID_AddFile, wxT("Add empty file..."), wxEmptyString, wxITEM_NORMAL);
     menu_metalink->Append(ID_RenameFile, wxT("Rename file..."), wxEmptyString, wxITEM_NORMAL);
     menu_metalink->Append(ID_DelFile, wxT("Remove file..."), wxEmptyString, wxITEM_NORMAL);
+    menu_metalink->Append(ID_ScanFile, wxT("Scan file..."), wxEmptyString, wxITEM_NORMAL);
     main_menubar->Append(menu_metalink, wxT("Metalink"));
     wxMenu* menu_help = new wxMenu();
     menu_help->Append(ID_License, wxT("License"), wxEmptyString, wxITEM_NORMAL);
@@ -215,6 +221,45 @@ void MainFrame::on_open(wxCommandEvent& WXUNUSED(event))
         wxLogError(wxT("Failed to open file: ") +
                    wxString(e.what(), wxConvUTF8));
     }
+}
+
+void MainFrame::on_scan_file(wxCommandEvent& WXUNUSED(event))
+{
+    wxString filename = wxFileSelector(wxT("Open"), wxT(""), wxT(""), wxT(""),
+                                       wxT("*.*"),
+                                       wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if(filename.empty()) return;
+    FileScan file_scan;
+    file_scan.set_filename(filename);
+    std::tr1::shared_ptr<HashContext> md5 = HashContext::md5();
+    std::tr1::shared_ptr<HashContext> sha1 = HashContext::sha1();
+    std::tr1::shared_ptr<HashContext> sha256 = HashContext::sha256();
+    std::tr1::shared_ptr<HashContext> pieceSha1 = HashContext::sha1();
+    file_scan.add_file_hash_ctx(md5);
+    file_scan.add_file_hash_ctx(sha1);
+    file_scan.add_file_hash_ctx(sha256);
+    file_scan.set_piece_hash_ctx(pieceSha1);
+    file_scan.set_piece_length(4194304); // 4MiB
+    wxProgressDialog dialog(wxT("Scanning file"), wxT("Scanning file..."),
+                            100, NULL,
+                            wxPD_AUTO_HIDE | wxPD_APP_MODAL | wxPD_SMOOTH |
+                            wxPD_ELAPSED_TIME | wxPD_REMAINING_TIME);
+    ProgressDialogProgressListener listener(&dialog);
+    file_scan.set_listener(&listener);
+    try {
+        file_scan.scan();
+    } catch(FileScanError& e) {
+        wxLogError(wxT("Failed to scan file: ")+wxString(e.what(), wxConvUTF8));
+    }
+    wxString basename = wxFileName(filename).GetFullName();
+    MetalinkFile file(basename);
+    file.set_size(file_scan.get_length());
+    file.add_file_hash(wxT("md5"), md5->hex_digest());
+    file.add_file_hash(wxT("sha-1"), sha1->hex_digest());
+    file.add_file_hash(wxT("sha-256"), sha256->hex_digest());
+    file.set_piece_hash(wxT("sha-1"), file_scan.get_piece_length(),
+                        file_scan.get_piece_hashes());
+    editor_.add_file(file);
 }
 
 void MainFrame::saveas()

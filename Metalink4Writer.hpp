@@ -12,6 +12,8 @@ public:
 private:
     void write_metalink();
     void write_file(const MetalinkFile& file);
+    void write_hashes(const MetalinkFile& file);
+    void write_piece_hash(const MetalinkFile& file);
     void write_source(const MetalinkSource& source);
     const Metalink& metalink_;
 };

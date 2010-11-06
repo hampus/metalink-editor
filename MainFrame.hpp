@@ -24,6 +24,7 @@ public:
     void on_rename_file(wxCommandEvent& event);
     void on_del_file(wxCommandEvent& event);
     void on_file_select(wxCommandEvent& event);
+    void on_scan_file(wxCommandEvent& event);
     void update();
 private:
     void create_menu();

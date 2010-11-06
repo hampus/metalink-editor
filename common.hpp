@@ -12,7 +12,8 @@ enum
     ID_URIList,
     ID_URIAdd,
     ID_URIEdit,
-    ID_URIDel
+    ID_URIDel,
+    ID_ScanFile
 };
 
 #endif

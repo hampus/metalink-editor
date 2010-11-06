@@ -16,9 +16,24 @@ public:
     void del_source(long index);
     const MetalinkSource& get_source(long index) const;
     const std::vector<MetalinkSource>& get_sources() const;
+    void set_size(off_t length);
+    off_t get_size() const;
+    void add_file_hash(const wxString& hash_type, const wxString& value);
+    const std::vector<std::pair<wxString, wxString> >& get_file_hashes() const;
+    void set_piece_hash(const wxString& hash_type,
+                        size_t piece_length,
+                        const std::vector<wxString>& hashes);
+    const wxString& get_piece_hash_type() const;
+    size_t get_piece_length() const;
+    const std::vector<wxString>& get_piece_hashes() const;
 private:
     std::vector<MetalinkSource> sources_;
     wxString filename_;
+    off_t size_;
+    std::vector<std::pair<wxString, wxString> > file_hashes_;
+    wxString piece_hash_type_;
+    size_t piece_length_;
+    std::vector<wxString> piece_hashes_;
 };
 
 #endif
