@@ -39,7 +39,7 @@ IF(MINGW)
 ENDIF()
 
 # Shared source files
-SET(SRCS MetalinkEditor.cpp MetalinkFile.cpp MetalinkSource.cpp
+SET(SRCS MetalinkEditor.cpp Metalink.cpp MetalinkFile.cpp MetalinkSource.cpp
     MetalinkWriter.cpp Metalink4Writer.cpp Metalink3Writer.cpp
     Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp)
 

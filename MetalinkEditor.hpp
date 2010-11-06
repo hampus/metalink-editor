@@ -1,7 +1,7 @@
 #ifndef METALINKEDITOR_HPP
 #define METALINKEDITOR_HPP
 
-#include "MetalinkFile.hpp"
+#include "Metalink.hpp"
 #include "MetalinkEditorListener.hpp"
 #include <wx/wx.h>
 #include <vector>
@@ -31,8 +31,8 @@ private:
     void update();
     bool load_metalink4(const wxString& filename);
     bool load_metalink3(const wxString& filename);
-    std::vector<MetalinkFile> files_;
     std::vector<MetalinkEditorListener*> listeners_;
+    Metalink metalink_;
     int selection_;
     wxString filename_;
 };
