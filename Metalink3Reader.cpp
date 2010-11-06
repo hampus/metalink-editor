@@ -1,19 +1,28 @@
 #include "Metalink3Reader.hpp"
 #include "XmlParser.hpp"
 
-Metalink3Reader::Metalink3Reader(MetalinkEditor& editor)
-    : editor_(editor)
+Metalink3Reader::Metalink3Reader()
+    : recognized_(false)
 {
 }
 
-bool Metalink3Reader::load(wxString filename)
+void Metalink3Reader::load(wxString filename)
 {
-    editor_.clear();
+    metalink_.clear();
     state_ = STATE_NONE;
-    correctversion_ = false;
+    recognized_ = false;
     XmlParser parser(*this);
     parser.parse(filename);
-    return correctversion_;
+}
+
+const Metalink& Metalink3Reader::get_metalink() const
+{
+    return metalink_;
+}
+
+bool Metalink3Reader::is_recognized() const
+{
+    return recognized_;
 }
 
 void Metalink3Reader::start_element(wxString name,
@@ -23,7 +32,7 @@ void Metalink3Reader::start_element(wxString name,
     switch(state_) {
         case STATE_NONE:
             if(name == wxT("metalink") && attrs["version"] == wxT("3.0")) {
-                correctversion_ = true;
+                recognized_ = true;
                 state_ = STATE_METALINK;
             }
         break;
@@ -72,7 +81,7 @@ void Metalink3Reader::end_element(wxString name)
         break;
         case STATE_FILE:
             if(name == wxT("file")) {
-                editor_.add_file(file_);
+                metalink_.add_file(file_);
                 state_ = STATE_METALINK;
             }
         break;

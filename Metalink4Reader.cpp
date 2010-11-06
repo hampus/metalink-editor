@@ -1,19 +1,28 @@
 #include "Metalink4Reader.hpp"
 #include "XmlParser.hpp"
 
-Metalink4Reader::Metalink4Reader(MetalinkEditor& editor)
-    : editor_(editor)
+Metalink4Reader::Metalink4Reader()
+    : recognized_(false)
 {
 }
 
-bool Metalink4Reader::load(wxString filename)
+void Metalink4Reader::load(wxString filename)
 {
-    editor_.clear();
+    metalink_.clear();
     state_ = STATE_NONE;
-    correctversion_ = false;
+    recognized_ = false;
     XmlParser parser(*this);
     parser.parse(filename);
-    return correctversion_;
+}
+
+const Metalink& Metalink4Reader::get_metalink() const
+{
+    return metalink_;
+}
+
+bool Metalink4Reader::is_recognized() const
+{
+    return recognized_;
 }
 
 void Metalink4Reader::start_element(wxString name, std::map<std::string,
@@ -23,7 +32,7 @@ void Metalink4Reader::start_element(wxString name, std::map<std::string,
     switch(state_) {
         case STATE_NONE:
             if(name == wxT("metalink")) {
-                correctversion_ = true;
+                recognized_ = true;
                 state_ = STATE_METALINK;
             }
         break;
@@ -72,7 +81,7 @@ void Metalink4Reader::end_element(wxString name)
         break;
         case STATE_FILE:
             if(name == wxT("file")) {
-                editor_.add_file(file_);
+                metalink_.add_file(file_);
                 state_ = STATE_METALINK;
             }
         break;
