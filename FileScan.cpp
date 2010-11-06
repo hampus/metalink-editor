@@ -38,6 +38,11 @@ void FileScan::set_listener(MetalinkEditorProgressListener* listener)
     listener_ = listener;
 }
 
+size_t FileScan::get_piece_length() const
+{
+    return piece_length_;
+}
+
 const std::vector<wxString>& FileScan::get_piece_hashes() const
 {
     return piece_hashes_;

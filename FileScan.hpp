@@ -34,6 +34,7 @@ public:
     // Setting listener. The caller must be responsible for deleting
     // listener.
     void set_listener(MetalinkEditorProgressListener* listener);
+    size_t get_piece_length() const;
     const std::vector<wxString>& get_piece_hashes() const;
     off_t get_length() const;
     void scan();
