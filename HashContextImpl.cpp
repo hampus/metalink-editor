@@ -29,9 +29,7 @@ wxString HashContextImpl::hex_digest()
     EVP_DigestFinal(&ctx_, data, &length);
     wxString hex_digest;
     for(size_t i = 0; i < length; ++i) {
-        wxString temp;
-        temp.Printf(wxT("%02x"), data[i]);
-        hex_digest += temp;
+        hex_digest += wxString::Format(wxT("%02x"), data[i]);
     }
     delete [] data;
     return hex_digest;
