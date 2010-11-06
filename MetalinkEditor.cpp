@@ -84,6 +84,11 @@ const wxString& MetalinkEditor::get_filename() const
     return filename_;
 }
 
+const Metalink& MetalinkEditor::get_metalink() const
+{
+    return metalink_;
+}
+
 void MetalinkEditor::set_filename(const wxString& filename)
 {
     filename_ = filename;

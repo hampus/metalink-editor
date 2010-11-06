@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metalink xmlns="urn:ietf:params:xml:ns:metalink">
+    <generator>MetalinkEditor/TEST</generator>
+    <file name="test55">
+        <metaurl mediatype="torrent" priority="23">http://torrent.com/test.torrent</metaurl>
+    </file>
+</metalink>

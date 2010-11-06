@@ -86,8 +86,9 @@ ADD_CUSTOM_TARGET(tests DEPENDS runtests)
 ADD_CUSTOM_TARGET(check COMMAND "${CMAKE_CURRENT_BINARY_DIR}/runtests" DEPENDS tests)
 
 SET(USE_GCOV OFF CACHE BOOL "Enable flags needed by gcov, when building tests?")
+SET_TARGET_PROPERTIES(runtests PROPERTIES COMPILE_FLAGS "-DCPPUNIT")
 IF(CMAKE_COMPILER_IS_GNUCXX AND ${USE_GCOV})
     SET_TARGET_PROPERTIES(runtests PROPERTIES
-                          COMPILE_FLAGS "-fprofile-arcs -ftest-coverage"
+                          COMPILE_FLAGS "-fprofile-arcs -ftest-coverage -DCPPUNIT"
                           LINK_FLAGS "-fprofile-arcs -ftest-coverage")
 ENDIF()

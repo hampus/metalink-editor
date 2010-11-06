@@ -61,7 +61,7 @@ XmlParser::~XmlParser() {
 
 void XmlParser::parse(wxString filename) {
     std::ifstream in(filename.mb_str(wxConvFile),
-                     std::ofstream::in | std::ofstream::binary);
+                     std::ifstream::in | std::ifstream::binary);
     if(in.fail()) throw MetalinkLoadError();
     char buf[4096];
     XML_Status result;
