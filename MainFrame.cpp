@@ -135,6 +135,7 @@ void MainFrame::on_about(wxCommandEvent& WXUNUSED(event))
     info.SetVersion(wxT(METALINKEDITOR_VERSION));
     info.SetDescription(wxT("This is a development version of Metalink Editor 2"));
     info.AddDeveloper(wxT("Hampus Wessman"));
+    info.AddDeveloper(wxT("Tatsuhiro Tsujikawa"));
     wxAboutBox(info);
 }
 
