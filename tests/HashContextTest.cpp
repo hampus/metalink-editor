@@ -4,15 +4,15 @@
 class HashContextTest : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(HashContextTest);
-    CPPUNIT_TEST(testHexDigest);
+    CPPUNIT_TEST(test_hex_digest);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void testHexDigest();
+    void test_hex_digest();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(HashContextTest);
 
-void HashContextTest::testHexDigest()
+void HashContextTest::test_hex_digest()
 {
     std::tr1::shared_ptr<HashContext> ctx = HashContext::sha1();
     const char* msg = "MetalinkEditor";

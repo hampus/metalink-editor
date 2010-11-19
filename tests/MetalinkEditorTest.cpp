@@ -7,24 +7,24 @@
 class MetalinkEditorTest : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(MetalinkEditorTest);
-    CPPUNIT_TEST(testAddFiles);
-    CPPUNIT_TEST(testClear);
-    CPPUNIT_TEST(testLoad4);
-    CPPUNIT_TEST(testSave4);
-    CPPUNIT_TEST(testLoad3);
-    CPPUNIT_TEST(testSave3);
-    CPPUNIT_TEST(testLoadInvalid4);
-    CPPUNIT_TEST(testLoadInvalid3);
+    CPPUNIT_TEST(test_add_files);
+    CPPUNIT_TEST(test_clear);
+    CPPUNIT_TEST(test_load4);
+    CPPUNIT_TEST(test_save4);
+    CPPUNIT_TEST(test_load3);
+    CPPUNIT_TEST(test_save3);
+    CPPUNIT_TEST(test_load_invalid4);
+    CPPUNIT_TEST(test_load_invalid3);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void testAddFiles();
-    void testClear();
-    void testLoad4();
-    void testSave4();
-    void testLoad3();
-    void testSave3();
-    void testLoadInvalid4();
-    void testLoadInvalid3();
+    void test_add_files();
+    void test_clear();
+    void test_load4();
+    void test_save4();
+    void test_load3();
+    void test_save3();
+    void test_load_invalid4();
+    void test_load_invalid3();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(MetalinkEditorTest);
@@ -68,7 +68,7 @@ MetalinkEditor create_test1()
     return editor;
 }
 
-void MetalinkEditorTest::testAddFiles()
+void MetalinkEditorTest::test_add_files()
 {
     MetalinkEditor editor;
     CPPUNIT_ASSERT_EQUAL(0, editor.num_files());
@@ -81,7 +81,7 @@ void MetalinkEditorTest::testAddFiles()
     CPPUNIT_ASSERT(!editor.is_empty());
 }
 
-void MetalinkEditorTest::testClear()
+void MetalinkEditorTest::test_clear()
 {
     // Setup
     MetalinkEditor editor;
@@ -94,7 +94,7 @@ void MetalinkEditorTest::testClear()
     CPPUNIT_ASSERT(editor.get_filename().empty());
 }
 
-void MetalinkEditorTest::testLoad4()
+void MetalinkEditorTest::test_load4()
 {
     // Setup
     wxString filename = get_testfile(wxT("test1.meta4"));
@@ -108,7 +108,7 @@ void MetalinkEditorTest::testLoad4()
     CPPUNIT_ASSERT(editor.get_filename(1) == wxT("test2"));
 }
 
-void MetalinkEditorTest::testSave4()
+void MetalinkEditorTest::test_save4()
 {
     // Setup
     wxString savefile = get_tmpfile(wxT("tmp.meta4"));
@@ -123,7 +123,7 @@ void MetalinkEditorTest::testSave4()
     CPPUNIT_ASSERT(saved == test1);
 }
 
-void MetalinkEditorTest::testLoad3()
+void MetalinkEditorTest::test_load3()
 {
     // Setup
     wxString filename = get_testfile(wxT("test1.metalink"));
@@ -137,7 +137,7 @@ void MetalinkEditorTest::testLoad3()
     CPPUNIT_ASSERT(editor.get_filename(1) == wxT("test2"));
 }
 
-void MetalinkEditorTest::testSave3()
+void MetalinkEditorTest::test_save3()
 {
     // Setup
     wxString savefile = get_tmpfile(wxT("tmp.metalink"));
@@ -152,14 +152,14 @@ void MetalinkEditorTest::testSave3()
     CPPUNIT_ASSERT(saved == test1);
 }
 
-void MetalinkEditorTest::testLoadInvalid4()
+void MetalinkEditorTest::test_load_invalid4()
 {
     wxString filename = get_testfile(wxT("invalid.meta4"));
     MetalinkEditor editor;
     CPPUNIT_ASSERT_THROW(editor.open(filename), MetalinkLoadError);
 }
 
-void MetalinkEditorTest::testLoadInvalid3()
+void MetalinkEditorTest::test_load_invalid3()
 {
     wxString filename = get_testfile(wxT("invalid.metalink"));
     MetalinkEditor editor;
