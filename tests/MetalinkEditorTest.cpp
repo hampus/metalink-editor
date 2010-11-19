@@ -15,10 +15,6 @@ class MetalinkEditorTest : public CppUnit::TestFixture
     CPPUNIT_TEST(testSave3);
     CPPUNIT_TEST(testLoadInvalid4);
     CPPUNIT_TEST(testLoadInvalid3);
-    CPPUNIT_TEST(testLoadTorrent4);
-    CPPUNIT_TEST(testLoadTorrent3);
-    CPPUNIT_TEST(testSaveTorrent4);
-    CPPUNIT_TEST(testSaveTorrent3);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testAddFiles();
@@ -29,10 +25,6 @@ public:
     void testSave3();
     void testLoadInvalid4();
     void testLoadInvalid3();
-    void testLoadTorrent4();
-    void testLoadTorrent3();
-    void testSaveTorrent4();
-    void testSaveTorrent3();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(MetalinkEditorTest);
@@ -73,19 +65,6 @@ MetalinkEditor create_test1()
     file2.add_source(src);
     editor.add_file(file1);
     editor.add_file(file2);
-    return editor;
-}
-
-MetalinkEditor create_test2()
-{
-    MetalinkEditor editor;
-    MetalinkSource src(wxT("http://torrent.com/test.torrent"));
-    src.set_location(wxT("us"));
-    src.set_priority(wxT("23"));
-    src.set_torrent(true);
-    MetalinkFile file1(wxT("test55"));
-    file1.add_source(src);
-    editor.add_file(file1);
     return editor;
 }
 
@@ -185,72 +164,4 @@ void MetalinkEditorTest::testLoadInvalid3()
     wxString filename = get_testfile(wxT("invalid.metalink"));
     MetalinkEditor editor;
     CPPUNIT_ASSERT_THROW(editor.open(filename), MetalinkLoadError);
-}
-
-void MetalinkEditorTest::testLoadTorrent4()
-{
-    // Setup
-    wxString filename = get_testfile(wxT("test2.meta4"));
-    MetalinkEditor editor;
-    // Exercise
-    editor.open(filename);
-    // Verify
-    CPPUNIT_ASSERT_EQUAL(1, editor.num_files());
-    MetalinkFile file = editor.get_file();
-    CPPUNIT_ASSERT(file.get_filename() == wxT("test55"));
-    CPPUNIT_ASSERT(file.get_sources().size() == 1);
-    MetalinkSource src = file.get_sources().at(0);
-    CPPUNIT_ASSERT(src.get_uri() == wxT("http://torrent.com/test.torrent"));
-    CPPUNIT_ASSERT(src.get_priority() == 23);
-    CPPUNIT_ASSERT(src.get_location().empty());
-    CPPUNIT_ASSERT(src.is_torrent());
-}
-
-void MetalinkEditorTest::testLoadTorrent3()
-{
-    // Setup
-    wxString filename = get_testfile(wxT("test2.metalink"));
-    MetalinkEditor editor;
-    // Exercise
-    editor.open(filename);
-    // Verify
-    CPPUNIT_ASSERT_EQUAL(1, editor.num_files());
-    MetalinkFile file = editor.get_file();
-    CPPUNIT_ASSERT(file.get_filename() == wxT("test55"));
-    CPPUNIT_ASSERT(file.get_sources().size() == 1);
-    MetalinkSource src = file.get_sources().at(0);
-    CPPUNIT_ASSERT(src.get_uri() == wxT("http://torrent.com/test.torrent"));
-    CPPUNIT_ASSERT(src.get_priority() == 23);
-    CPPUNIT_ASSERT(src.get_location().empty());
-    CPPUNIT_ASSERT(src.is_torrent());
-}
-
-void MetalinkEditorTest::testSaveTorrent4()
-{
-    // Setup
-    wxString savefile = get_tmpfile(wxT("tmp.meta4"));
-    wxString test2file = get_testfile(wxT("test2.meta4"));
-    MetalinkEditor editor = create_test2();
-    // Exercise
-    editor.set_filename(savefile);
-    editor.save();
-    // Verify
-    std::string saved = read_file(savefile);
-    std::string test2 = read_file(test2file);
-    CPPUNIT_ASSERT(saved == test2);
-}
-
-void MetalinkEditorTest::testSaveTorrent3()
-{
-    // Setup
-    wxString savefile = get_tmpfile(wxT("tmp.metalink"));
-    wxString test2file = get_testfile(wxT("test2.metalink"));
-    MetalinkEditor editor = create_test2();
-    // Exercise
-    editor.set_filename(savefile);
-    editor.save();
-    // Verify
-    std::string saved = read_file(savefile);
-    std::string test2 = read_file(test2file);
-    CPPUNIT_ASSERT(saved == test2);
 }
