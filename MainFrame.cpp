@@ -67,6 +67,7 @@ void MainFrame::create_menu()
     menu_metalink->Append(ID_AddFile, wxT("Add empty file..."), wxEmptyString, wxITEM_NORMAL);
     menu_metalink->Append(ID_RenameFile, wxT("Rename file..."), wxEmptyString, wxITEM_NORMAL);
     menu_metalink->Append(ID_DelFile, wxT("Remove file..."), wxEmptyString, wxITEM_NORMAL);
+    menu_metalink->AppendSeparator();
     menu_metalink->Append(ID_ScanFile, wxT("Scan file..."), wxEmptyString, wxITEM_NORMAL);
     main_menubar->Append(menu_metalink, wxT("Metalink"));
     wxMenu* menu_help = new wxMenu();
