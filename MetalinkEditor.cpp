@@ -53,12 +53,6 @@ void MetalinkEditor::remove_file()
 {
     // Remove the file
     metalink_.remove_file(selection_);
-    // Fix selection
-    if(metalink_.is_empty()) {
-        selection_ = 0;
-    } else if(selection_ >= metalink_.num_files()) {
-        selection_ = metalink_.num_files() - 1;
-    }
     // Update
     update();
 }
@@ -96,6 +90,13 @@ void MetalinkEditor::set_filename(const wxString& filename)
 
 void MetalinkEditor::update()
 {
+    // Fix selection, if needed.
+    if(metalink_.is_empty()) {
+        selection_ = 0;
+    } else if(selection_ >= metalink_.num_files()) {
+        selection_ = metalink_.num_files() - 1;
+    }
+    // Notify listeners
     for(int i = 0; i < listeners_.size(); i++) {
         listeners_.at(i)->update();
     }
