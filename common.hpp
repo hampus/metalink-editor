@@ -16,7 +16,8 @@ enum
     ID_ScanFile,
     ID_Identity,
     ID_Size,
-    ID_HashList
+    ID_HashList,
+    ID_DeleteChunks
 };
 
 #endif

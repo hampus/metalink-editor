@@ -6,6 +6,7 @@
 #include "SourcePanel.hpp"
 #include "GeneralPanel.hpp"
 #include "HashPanel.hpp"
+#include "ChunkPanel.hpp"
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/notebook.h>
@@ -38,6 +39,7 @@ private:
     SourcePanel* source_panel_;
     GeneralPanel* general_panel_;
     HashPanel* hash_panel_;
+    ChunkPanel* chunk_panel_;
     MetalinkEditor editor_;
     bool start_; // Are we showing the start page?
     DECLARE_EVENT_TABLE()

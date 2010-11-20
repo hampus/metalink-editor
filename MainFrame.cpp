@@ -109,6 +109,8 @@ void MainFrame::update_start(bool force)
         notebook_->AddPage(source_panel_, wxT("Sources"));
         hash_panel_ = new HashPanel(notebook_, editor_);
         notebook_->AddPage(hash_panel_, wxT("Hashes"));
+        chunk_panel_ = new ChunkPanel(notebook_, editor_);
+        notebook_->AddPage(chunk_panel_, wxT("Chunks"));
         start_ = false;
     }
 }
@@ -127,6 +129,7 @@ void MainFrame::update()
         source_panel_->update();
         general_panel_->update();
         hash_panel_->update();
+        chunk_panel_->update();
     }
 }
 

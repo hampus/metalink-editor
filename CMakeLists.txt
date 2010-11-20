@@ -51,7 +51,8 @@ SET(SRCS MetalinkEditor.cpp Metalink.cpp MetalinkFile.cpp MetalinkSource.cpp
 
 # Build application
 SET(APP_SRCS ${SRCS} main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp
-    SourcePanel.cpp SourceDialog.cpp GeneralPanel.cpp HashPanel.cpp)
+    SourcePanel.cpp SourceDialog.cpp GeneralPanel.cpp HashPanel.cpp
+    ChunkPanel.cpp)
 IF(WIN32)
     SET(APP_SRCS ${APP_SRCS} windows.rc)
 ENDIF()
