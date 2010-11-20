@@ -57,10 +57,10 @@ void Metalink3Writer::write_verification(const MetalinkFile& file)
 
 MetalinkFile Metalink3Writer::convert_hash_types(const MetalinkFile& file)
 {
-    std::vector<std::pair<wxString, wxString> > hashes = file.get_file_hashes();
-    for(std::vector<std::pair<wxString, wxString> >::iterator i =
-            hashes.begin(), eoi = hashes.end(); i != eoi; ++i) {
-        i->first = convert_hash_type(i->first);
+    std::vector<MetalinkHash> hashes = file.get_file_hashes();
+    for(std::vector<MetalinkHash>::iterator i = hashes.begin(),
+            eoi = hashes.end(); i != eoi; ++i) {
+        (*i).type = convert_hash_type((*i).type);
     }
     wxString piece_type = convert_hash_type(file.get_piece_hash_type());
     MetalinkFile file2 = file;
@@ -99,13 +99,13 @@ bool Metalink3Writer::has_piece_hashes(const MetalinkFile& file)
 
 void Metalink3Writer::write_hashes(const MetalinkFile& file)
 {
-    const std::vector<std::pair<wxString, wxString> >& hashes =
+    const std::vector<MetalinkHash>& hashes =
         file.get_file_hashes();
-    for(std::vector<std::pair<wxString, wxString> >::const_iterator i =
-            hashes.begin(), eoi = hashes.end(); i != eoi; ++i) {
+    for(std::vector<MetalinkHash>::const_iterator i = hashes.begin(),
+            eoi = hashes.end(); i != eoi; ++i) {
         start(wxT("hash"));
-        add_attr(wxT("type"), (*i).first);
-        end(wxT("hash"), (*i).second);
+        add_attr(wxT("type"), (*i).type);
+        end(wxT("hash"), (*i).value);
     }
 }
 

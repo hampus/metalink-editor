@@ -2,6 +2,7 @@
 #define METALINKFILE_HPP
 
 #include "MetalinkSource.hpp"
+#include "MetalinkHash.hpp"
 #include <wx/wx.h>
 #include <vector>
 
@@ -22,8 +23,8 @@ public:
     void set_size(const wxString& length);
     const wxString& get_size() const;
     void add_file_hash(const wxString& hash_type, const wxString& value);
-    const std::vector<std::pair<wxString, wxString> >& get_file_hashes() const;
-    void set_file_hashes(const std::vector<std::pair<wxString, wxString> >& hashes);
+    const std::vector<MetalinkHash>& get_file_hashes() const;
+    void set_file_hashes(const std::vector<MetalinkHash>& hashes);
     void set_piece_hash(const wxString& hash_type,
                         size_t piece_length,
                         const std::vector<wxString>& hashes);
@@ -36,7 +37,7 @@ private:
     wxString filename_;
     wxString identity_;
     wxString size_;
-    std::vector<std::pair<wxString, wxString> > file_hashes_;
+    std::vector<MetalinkHash> file_hashes_;
     wxString piece_hash_type_;
     size_t piece_length_;
     std::vector<wxString> piece_hashes_;

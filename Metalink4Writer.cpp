@@ -39,13 +39,12 @@ void Metalink4Writer::write_file(const MetalinkFile& file)
 
 void Metalink4Writer::write_hashes(const MetalinkFile& file)
 {
-    const std::vector<std::pair<wxString, wxString> >& hashes =
-        file.get_file_hashes();
-    for(std::vector<std::pair<wxString, wxString> >::const_iterator i =
-            hashes.begin(), eoi = hashes.end(); i != eoi; ++i) {
+    const std::vector<MetalinkHash>& hashes = file.get_file_hashes();
+    for(std::vector<MetalinkHash>::const_iterator i = hashes.begin(),
+            eoi = hashes.end(); i != eoi; ++i) {
         start(wxT("hash"));
-        add_attr(wxT("type"), (*i).first);
-        end(wxT("hash"), (*i).second);
+        add_attr(wxT("type"), (*i).type);
+        end(wxT("hash"), (*i).value);
     }
 }
 
