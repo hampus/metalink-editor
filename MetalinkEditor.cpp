@@ -112,6 +112,7 @@ void MetalinkEditor::open(const wxString& filename)
 {
     metalink_ = Metalink::load(filename);
     filename_ = filename;
+    selection_ = 0;
     update();
 }
 
