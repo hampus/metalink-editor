@@ -15,6 +15,7 @@ private:
     wxTextCtrl* txt_identity_;
     wxTextCtrl* txt_size_;
     MetalinkEditor& editor_;
+    bool ignore_updates_;
     DECLARE_EVENT_TABLE()
 };
 

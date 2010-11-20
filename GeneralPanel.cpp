@@ -8,7 +8,7 @@ BEGIN_EVENT_TABLE(GeneralPanel, wxScrolledWindow)
 END_EVENT_TABLE()
 
 GeneralPanel::GeneralPanel(wxWindow* parent, MetalinkEditor& editor)
-    : wxScrolledWindow(parent), editor_(editor)
+    : wxScrolledWindow(parent), editor_(editor), ignore_updates_(false)
 {
     create_widgets();
     update();
@@ -40,6 +40,7 @@ void GeneralPanel::create_widgets()
 
 void GeneralPanel::update()
 {
+    if(ignore_updates_) return;
     MetalinkFile file = editor_.get_file();
     txt_identity_->ChangeValue(file.get_identity());
     txt_size_->ChangeValue(file.get_size());
@@ -47,8 +48,10 @@ void GeneralPanel::update()
 
 void GeneralPanel::on_change(wxCommandEvent& WXUNUSED(event))
 {
+    ignore_updates_ = true;
     MetalinkFile file = editor_.get_file();
     file.set_identity(txt_identity_->GetValue());
     file.set_size(txt_size_->GetValue());
     editor_.set_file(file);
+    ignore_updates_ = false;
 }
