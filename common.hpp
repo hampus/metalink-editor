@@ -15,7 +15,8 @@ enum
     ID_URIDel,
     ID_ScanFile,
     ID_Identity,
-    ID_Size
+    ID_Size,
+    ID_HashList
 };
 
 #endif

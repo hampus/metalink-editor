@@ -107,6 +107,8 @@ void MainFrame::update_start(bool force)
         notebook_->AddPage(general_panel_, wxT("General"));
         source_panel_ = new SourcePanel(notebook_, editor_);
         notebook_->AddPage(source_panel_, wxT("Sources"));
+        hash_panel_ = new HashPanel(notebook_, editor_);
+        notebook_->AddPage(hash_panel_, wxT("Hashes"));
         start_ = false;
     }
 }
@@ -124,6 +126,7 @@ void MainFrame::update()
     if(!start_) {
         source_panel_->update();
         general_panel_->update();
+        hash_panel_->update();
     }
 }
 
