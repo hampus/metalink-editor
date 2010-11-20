@@ -3,21 +3,27 @@ Metalink Editor 2
 
 This is a rewrite of Metalink Editor 1.x, a GUI editor for metalink files.
 
-The editor is not yet finished and currently lacks some useful features.
-
-Features
---------
+Current features
+----------------
 * Multi-file metalinks.
 * Load and save Metalink 4.
 * Load and save Metalink 3.
 * Edit URLs.
 * Add file by scanning a file from a local file system.
+* Show and delete piece hashes (only shows count and type).
+* Show full file hashes.
 
-Planned features
-----------------
-* Edit basic file info.
+Remaining tasks/features
+------------------------
+* Edit basic file info [partially done].
 * Edit full file hashes.
-* Show (at least that they exist) and delete piece hashes.
+* Load hashes (full and piece hashes).
+* Settings for file scanning.
+* Optimize scanning for multi-core CPUs.
+* Replace OpenSSL, because of its license (Crypto++ looks nice).
+* Validate data (real time or before saving) and show a list of errors.
+* Create a web site.
+* Write documentation (probably some kind of HTML).
 
 Dependencies
 ------------
@@ -45,6 +51,11 @@ Building from source (Windows)
 For Windows it is a lot easier to download a prebuilt binary. Only advanced
 users should try compiling the software on Windows. It is possible to build
 it using MinGW/MSYS and CMake.
+
+Running tests
+-------------
+Run 'make check' to build and run the unit tests. The tests cover some of the
+non-GUI source code and require CPPUnit.
 
 Uninstall
 ---------
