@@ -88,6 +88,7 @@ void MetalinkWriter::end(const wxString& element)
 void MetalinkWriter::add_element(const wxString& element,
                                   const wxString& value)
 {
+    if(value.empty()) return;
     start(element);
     end(element, value);
 }

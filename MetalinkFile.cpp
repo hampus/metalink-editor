@@ -2,7 +2,6 @@
 
 MetalinkFile::MetalinkFile(const wxString& filename)
     : filename_(filename),
-      size_(-1),
       piece_length_(0)
 {
 }
@@ -15,6 +14,16 @@ void MetalinkFile::set_filename(const wxString& filename)
 const wxString& MetalinkFile::get_filename() const
 {
     return filename_;
+}
+
+void MetalinkFile::set_identity(const wxString& identity)
+{
+    identity_ = identity;
+}
+
+const wxString& MetalinkFile::get_identity() const
+{
+    return identity_;
 }
 
 void MetalinkFile::add_source(const MetalinkSource& source)
@@ -42,12 +51,17 @@ const std::vector<MetalinkSource>& MetalinkFile::get_sources() const
     return sources_;
 }
 
-void MetalinkFile::set_size(off_t size)
+void MetalinkFile::set_size(const wxString& size)
 {
     size_ = size;
 }
 
-off_t MetalinkFile::get_size() const
+void MetalinkFile::set_size(off_t size)
+{
+    set_size(wxString::Format(wxT("%lld"), size));
+}
+
+const wxString& MetalinkFile::get_size() const
 {
     return size_;
 }

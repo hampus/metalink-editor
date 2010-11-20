@@ -25,10 +25,8 @@ void Metalink4Writer::write_file(const MetalinkFile& file)
     start(wxT("file"));
     add_attr(wxT("name"), file.get_filename());
     close_start();
-    if(file.get_size() >= 0) {
-        add_element(wxT("size"),
-                    wxString::Format(wxT("%lld"), file.get_size()));
-    }
+    add_element(wxT("identity"), file.get_identity());
+    add_element(wxT("size"), file.get_size());
     write_hashes(file);
     write_piece_hash(file);
     const std::vector<MetalinkSource>& sources = file.get_sources();

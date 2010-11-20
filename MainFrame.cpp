@@ -94,15 +94,17 @@ void MainFrame::create_widgets()
 // Show start page if editor is empty and otherwise the regular interface.
 void MainFrame::update_start(bool force)
 {
-    if(force || (!start_ && editor_.is_empty())) {
+    if(editor_.is_empty() && (force || !start_)) {
         // Switch to start page
         notebook_->DeleteAllPages();
         wxPanel* start_panel = new StartPanel(notebook_);
         notebook_->AddPage(start_panel, wxT("Start"));
         start_ = true;
-    } else if(force || (start_ && !editor_.is_empty())) {
+    } else if(!editor_.is_empty() && (force || start_)) {
         // Switch to regular user interface
         notebook_->DeleteAllPages();
+        general_panel_ = new GeneralPanel(notebook_, editor_);
+        notebook_->AddPage(general_panel_, wxT("General"));
         source_panel_ = new SourcePanel(notebook_, editor_);
         notebook_->AddPage(source_panel_, wxT("Sources"));
         start_ = false;
@@ -121,6 +123,7 @@ void MainFrame::update()
     // Update panels
     if(!start_) {
         source_panel_->update();
+        general_panel_->update();
     }
 }
 

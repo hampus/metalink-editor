@@ -13,7 +13,9 @@ enum
     ID_URIAdd,
     ID_URIEdit,
     ID_URIDel,
-    ID_ScanFile
+    ID_ScanFile,
+    ID_Identity,
+    ID_Size
 };
 
 #endif
