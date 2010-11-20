@@ -51,20 +51,19 @@ void Metalink4Writer::write_hashes(const MetalinkFile& file)
 
 void Metalink4Writer::write_piece_hash(const MetalinkFile& file)
 {
-    if(!file.get_piece_hashes().empty() &&
-       !file.get_piece_hash_type().empty()) {
-        start(wxT("pieces"));
-        add_attr(wxT("length"),
-                 wxString::Format(wxT("%lu"), file.get_piece_length()));
-        add_attr(wxT("type"), file.get_piece_hash_type());
-        close_start();
-        const std::vector<wxString>& hashes = file.get_piece_hashes();
-        for(std::vector<wxString>::const_iterator i = hashes.begin(),
-                eoi = hashes.end(); i != eoi; ++i) {
-            add_element(wxT("hash"), *i);
-        }
-        end(wxT("pieces"));
+    if(file.get_piece_hashes().empty()) return;
+    if(file.get_piece_hash_type().empty()) return;
+    start(wxT("pieces"));
+    add_attr(wxT("length"),
+             wxString::Format(wxT("%lu"), file.get_piece_length()));
+    add_attr(wxT("type"), file.get_piece_hash_type());
+    close_start();
+    const std::vector<wxString>& hashes = file.get_piece_hashes();
+    for(std::vector<wxString>::const_iterator i = hashes.begin(),
+            eoi = hashes.end(); i != eoi; ++i) {
+        add_element(wxT("hash"), *i);
     }
+    end(wxT("pieces"));
 }
 
 void Metalink4Writer::write_source(const MetalinkSource& source)

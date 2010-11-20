@@ -23,10 +23,12 @@ public:
     const wxString& get_size() const;
     void add_file_hash(const wxString& hash_type, const wxString& value);
     const std::vector<std::pair<wxString, wxString> >& get_file_hashes() const;
+    void set_file_hashes(const std::vector<std::pair<wxString, wxString> >& hashes);
     void set_piece_hash(const wxString& hash_type,
                         size_t piece_length,
                         const std::vector<wxString>& hashes);
     const wxString& get_piece_hash_type() const;
+    void set_piece_hash_type(const wxString& type);
     size_t get_piece_length() const;
     const std::vector<wxString>& get_piece_hashes() const;
 private:

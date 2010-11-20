@@ -78,6 +78,11 @@ MetalinkFile::get_file_hashes() const
     return file_hashes_;
 }
 
+void MetalinkFile::set_file_hashes(const std::vector<std::pair<wxString, wxString> >& hashes)
+{
+    file_hashes_ = hashes;
+}
+
 void MetalinkFile::set_piece_hash(const wxString& hash_type,
                                   size_t piece_length,
                                   const std::vector<wxString>& hashes)
@@ -90,6 +95,11 @@ void MetalinkFile::set_piece_hash(const wxString& hash_type,
 const wxString& MetalinkFile::get_piece_hash_type() const
 {
     return piece_hash_type_;
+}
+
+void MetalinkFile::set_piece_hash_type(const wxString& type)
+{
+    piece_hash_type_ = type;
 }
 
 size_t MetalinkFile::get_piece_length() const
