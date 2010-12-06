@@ -12,10 +12,10 @@ Current features
 * Add file by scanning a file from a local file system.
 * Show and delete piece hashes (only shows count and type).
 * Show full file hashes.
+* Edit basic file info.
 
 Remaining tasks/features
 ------------------------
-* Edit basic file info [partially done].
 * Edit full file hashes.
 * Load hashes (full and piece hashes).
 * Settings for file scanning.
