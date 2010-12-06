@@ -30,6 +30,8 @@ void Metalink3Writer::write_file(const MetalinkFile& file)
     add_attr(wxT("name"), file.get_filename());
     close_start();
     add_element(wxT("identity"), file.get_identity());
+    add_element(wxT("description"), file.get_description());
+    add_element(wxT("version"), file.get_version());
     add_element(wxT("size"), file.get_size());
     write_verification(file);
     start(wxT("resources"));

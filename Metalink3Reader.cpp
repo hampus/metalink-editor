@@ -85,6 +85,10 @@ void Metalink3Reader::end_element(wxString name)
                 state_ = STATE_METALINK;
             } else if(name == wxT("identity")) {
                 file_.set_identity(data_);
+            } else if(name == wxT("description")) {
+                file_.set_description(data_);
+            } else if(name == wxT("version")) {
+                file_.set_version(data_);
             } else if(name == wxT("size")) {
                 file_.set_size(data_);
             }

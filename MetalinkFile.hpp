@@ -14,6 +14,10 @@ public:
     void set_filename(const wxString& filename);
     const wxString& get_identity() const;
     void set_identity(const wxString& filename);
+    const wxString& get_description() const;
+    void set_description(const wxString& description);
+    const wxString& get_version() const;
+    void set_version(const wxString& version);
     void add_source(const MetalinkSource& source);
     void set_source(long index, const MetalinkSource& source);
     void del_source(long index);
@@ -36,6 +40,8 @@ private:
     std::vector<MetalinkSource> sources_;
     wxString filename_;
     wxString identity_;
+    wxString desc_;
+    wxString version_;
     wxString size_;
     std::vector<MetalinkHash> file_hashes_;
     wxString piece_hash_type_;

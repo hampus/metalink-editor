@@ -26,6 +26,26 @@ const wxString& MetalinkFile::get_identity() const
     return identity_;
 }
 
+void MetalinkFile::set_description(const wxString& description)
+{
+    desc_ = description;
+}
+
+const wxString& MetalinkFile::get_description() const
+{
+    return desc_;
+}
+
+void MetalinkFile::set_version(const wxString& version)
+{
+    version_ = version;
+}
+
+const wxString& MetalinkFile::get_version() const
+{
+    return version_;
+}
+
 void MetalinkFile::add_source(const MetalinkSource& source)
 {
     sources_.push_back(source);

@@ -13,6 +13,8 @@ public:
 private:
     void create_widgets();
     wxTextCtrl* txt_identity_;
+    wxTextCtrl* txt_desc_;
+    wxTextCtrl* txt_version_;
     wxTextCtrl* txt_size_;
     MetalinkEditor& editor_;
     bool ignore_updates_;

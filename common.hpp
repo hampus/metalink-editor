@@ -17,7 +17,9 @@ enum
     ID_Identity,
     ID_Size,
     ID_HashList,
-    ID_DeleteChunks
+    ID_DeleteChunks,
+    ID_Description,
+    ID_Version
 };
 
 #endif
