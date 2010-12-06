@@ -10,7 +10,9 @@ BEGIN_EVENT_TABLE(GeneralPanel, wxScrolledWindow)
 END_EVENT_TABLE()
 
 GeneralPanel::GeneralPanel(wxWindow* parent, MetalinkEditor& editor)
-    : wxScrolledWindow(parent), editor_(editor), ignore_updates_(false)
+    : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                       wxHSCROLL | wxVSCROLL | wxTAB_TRAVERSAL),
+      editor_(editor), ignore_updates_(false)
 {
     create_widgets();
     update();
