@@ -13,6 +13,9 @@ void Metalink3Reader::load(wxString filename)
     recognized_ = false;
     XmlParser parser(*this);
     parser.parse(filename);
+    if(state_ != STATE_NONE) {
+        throw MetalinkLoadError("Internal error while loading metalink!");
+    }
 }
 
 const Metalink& Metalink3Reader::get_metalink() const
@@ -49,6 +52,21 @@ void Metalink3Reader::start_element(wxString name,
         case STATE_FILE:
             if(name == wxT("resources")) {
                 state_ = STATE_RESOURCES;
+            } else if(name == wxT("pieces")) {
+                if(attrs.count("length") != 1 || attrs.count("type") != 1) {
+                    throw MetalinkLoadError("Missing attribute on pieces "
+                                            "element.");
+                }
+                file_.set_piece_hash_type(attrs["type"]);
+                file_.set_piece_length(attrs["length"]);
+                piece_hashes_.clear();
+                state_ = STATE_PIECES;
+            } else if(name == wxT("hash")) {
+                if(attrs.count("type") != 1) {
+                    throw MetalinkLoadError("Missing 'type' attribute on "
+                                            "hash element");
+                }
+                hash_ = MetalinkHash(attrs["type"]);
             }
         break;
         case STATE_RESOURCES:
@@ -64,6 +82,18 @@ void Metalink3Reader::start_element(wxString name,
                     source_.set_priority(attrs["preference"]);
                 }
                 state_ = STATE_URL;
+            }
+        break;
+        case STATE_PIECES:
+            if(name == wxT("hash")) {
+                if(attrs.count("piece") != 1) {
+                    throw MetalinkLoadError("Missing 'piece' attribute on "
+                                            "hash element");
+                }
+                bool isnum = attrs["piece"].ToLong(&piece_);
+                if(!isnum || piece_ < 0 || piece_ > 5000) {
+                    throw MetalinkLoadError("Invalid piece number");
+                }
             }
         break;
     }
@@ -91,6 +121,9 @@ void Metalink3Reader::end_element(wxString name)
                 file_.set_version(data_);
             } else if(name == wxT("size")) {
                 file_.set_size(data_);
+            } else if(name == wxT("hash")) {
+                hash_.value = data_;
+                file_.add_file_hash(hash_);
             }
         break;
         case STATE_RESOURCES:
@@ -103,6 +136,17 @@ void Metalink3Reader::end_element(wxString name)
                 source_.set_uri(data_);
                 file_.add_source(source_);
                 state_ = STATE_RESOURCES;
+            }
+        break;
+        case STATE_PIECES:
+            if(name == wxT("pieces")) {
+                file_.set_piece_hash(piece_hashes_);
+                state_ = STATE_FILE;
+            } else if(name == wxT("hash")) {
+                if(piece_hashes_.size() < piece_ + 1) {
+                    piece_hashes_.resize(piece_ + 1);
+                }
+                piece_hashes_.at(piece_) = data_;
             }
         break;
     }

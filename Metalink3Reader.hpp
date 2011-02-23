@@ -22,6 +22,9 @@ private:
     Metalink metalink_;
     MetalinkFile file_;
     MetalinkSource source_;
+    MetalinkHash hash_;
+    std::vector<wxString> piece_hashes_;
+    long piece_;
     wxString data_;
     bool recognized_;
     enum State {
@@ -29,7 +32,8 @@ private:
         STATE_METALINK,
         STATE_FILE,
         STATE_RESOURCES,
-        STATE_URL
+        STATE_URL,
+        STATE_PIECES
     } state_;
 };
 

@@ -16,7 +16,6 @@ Current features
 
 Remaining tasks/features
 ------------------------
-* Load Metalink 3 hashes.
 * Edit full file hashes.
 * Create a web site.
 * Write documentation (probably some kind of HTML).
