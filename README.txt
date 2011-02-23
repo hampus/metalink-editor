@@ -16,14 +16,14 @@ Current features
 
 Remaining tasks/features
 ------------------------
+* Load Metalink 3 hashes.
 * Edit full file hashes.
-* Load hashes (full and piece hashes).
-* Settings for file scanning.
-* Optimize scanning for multi-core CPUs.
-* Replace OpenSSL, because of its license (Crypto++ looks nice).
-* Validate data (real time or before saving) and show a list of errors.
 * Create a web site.
 * Write documentation (probably some kind of HTML).
+* Validate data (real time or before saving) and show a list of errors.
+* Optimize scanning for multi-core CPUs.
+* Settings for file scanning.
+* Perhaps replace OpenSSL, because of its license (Crypto++ looks nice).
 
 Dependencies
 ------------

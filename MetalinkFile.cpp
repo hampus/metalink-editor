@@ -89,7 +89,12 @@ const wxString& MetalinkFile::get_size() const
 void MetalinkFile::add_file_hash(const wxString& hash_type,
                                  const wxString& value)
 {
-    file_hashes_.push_back(MetalinkHash(hash_type, value));
+    add_file_hash(MetalinkHash(hash_type, value));
+}
+
+void MetalinkFile::add_file_hash(MetalinkHash hash)
+{
+    file_hashes_.push_back(hash);
 }
 
 const std::vector<MetalinkHash>& MetalinkFile::get_file_hashes() const
@@ -109,6 +114,24 @@ void MetalinkFile::set_piece_hash(const wxString& hash_type,
     piece_hash_type_ = hash_type;
     piece_length_ = piece_length;
     piece_hashes_ = hashes;
+}
+
+void MetalinkFile::set_piece_hash(const std::vector<wxString>& hashes)
+{
+    piece_hashes_ = hashes;
+}
+
+void MetalinkFile::set_piece_length(size_t piece_length)
+{
+    piece_length_ = piece_length;
+}
+
+void MetalinkFile::set_piece_length(wxString piece_length)
+{
+    wxLongLong_t length;
+    if(piece_length.ToLongLong(&length)) {
+        set_piece_length(length);
+    }
 }
 
 const wxString& MetalinkFile::get_piece_hash_type() const

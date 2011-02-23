@@ -27,13 +27,17 @@ public:
     void set_size(const wxString& length);
     const wxString& get_size() const;
     void add_file_hash(const wxString& hash_type, const wxString& value);
+    void add_file_hash(MetalinkHash hash);
     const std::vector<MetalinkHash>& get_file_hashes() const;
     void set_file_hashes(const std::vector<MetalinkHash>& hashes);
     void set_piece_hash(const wxString& hash_type,
                         size_t piece_length,
                         const std::vector<wxString>& hashes);
+    void set_piece_hash(const std::vector<wxString>& hashes);
     const wxString& get_piece_hash_type() const;
     void set_piece_hash_type(const wxString& type);
+    void set_piece_length(size_t piece_length);
+    void set_piece_length(wxString piece_length);
     size_t get_piece_length() const;
     const std::vector<wxString>& get_piece_hashes() const;
 private:
