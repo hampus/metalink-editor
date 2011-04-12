@@ -11,12 +11,11 @@ Current features
 * Edit URLs.
 * Add file by scanning a file from a local file system.
 * Show and delete piece hashes (only shows count and type).
-* Show full file hashes.
+* Edit full file hashes.
 * Edit basic file info.
 
 Remaining tasks/features
 ------------------------
-* Edit full file hashes.
 * Create a web site.
 * Write documentation (probably some kind of HTML).
 * Validate data (real time or before saving) and show a list of errors.
