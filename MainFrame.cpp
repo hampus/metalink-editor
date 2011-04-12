@@ -223,7 +223,7 @@ void MainFrame::on_new(wxCommandEvent& WXUNUSED(event))
 void MainFrame::on_open(wxCommandEvent& WXUNUSED(event))
 {
     wxString filename = wxFileSelector(wxT("Open"), wxT(""), editor_.get_filename(), wxT("meta4"),
-        wxT("Metalink 4 (*.meta4)|*.meta4|Metalink 3 (*.metalink)|*.metalink|All files (*.*)|*.*"),
+        wxT("Metalink files|*.meta4;*.metalink|Metalink 4 (*.meta4)|*.meta4|Metalink 3 (*.metalink)|*.metalink|All files (*.*)|*.*"),
         wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if(filename.empty()) return;
     try {
