@@ -107,6 +107,21 @@ void MetalinkFile::set_file_hashes(const std::vector<MetalinkHash>& hashes)
     file_hashes_ = hashes;
 }
 
+void MetalinkFile::set_file_hash(long index, const MetalinkHash& hash)
+{
+    file_hashes_.at(index) = hash;
+}
+
+const MetalinkHash& MetalinkFile::get_file_hash(long index)
+{
+    return file_hashes_.at(index);
+}
+
+void MetalinkFile::del_file_hash(long index)
+{
+    file_hashes_.erase(file_hashes_.begin() + index);
+}
+
 void MetalinkFile::set_piece_hash(const wxString& hash_type,
                                   size_t piece_length,
                                   const std::vector<wxString>& hashes)
