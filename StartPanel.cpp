@@ -1,12 +1,12 @@
 #include "StartPanel.hpp"
-#include "util.hpp"
+#include <wx/stdpaths.h>
 #include <wx/html/htmlwin.h>
 
 StartPanel::StartPanel(wxWindow* parent)
     : wxPanel(parent)
 {
     // HTML file
-    wxStandardPaths stdpaths = get_stdpaths();
+    const wxStandardPaths& stdpaths(wxStandardPaths::Get());
     wxFileName file(stdpaths.GetDataDir(), wxT("start.htm"));
     // Create HTML widget
     wxHtmlWindow* htmlwin = new wxHtmlWindow(this);

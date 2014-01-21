@@ -1,12 +1,12 @@
 #include "MainFrame.hpp"
 #include "LicenseFrame.hpp"
 #include "StartPanel.hpp"
-#include "util.hpp"
 #include "common.hpp"
 #include "config.h"
 #include "FileScan.hpp"
 #include "HashContext.hpp"
 #include "ProgressDialogProgressListener.hpp"
+#include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/aboutdlg.h>
 #include <wx/progdlg.h>
@@ -37,7 +37,8 @@ MainFrame::MainFrame()
 #if defined(__WXMSW__)
     wxIcon icon(wxT("metalink"), wxBITMAP_TYPE_ICO_RESOURCE);
 #else
-    wxFileName icon_name(get_stdpaths().GetDataDir(), wxT("metalink.png"));
+    wxFileName icon_name(wxStandardPaths::Get().GetDataDir(),
+	                 wxT("metalink.png"));
     wxBitmap bmp(icon_name.GetFullPath(), wxBITMAP_TYPE_ANY);
     wxIcon icon;
     icon.CopyFromBitmap(bmp);

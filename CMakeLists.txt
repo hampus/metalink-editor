@@ -45,9 +45,8 @@ ENDIF()
 # Shared source files
 SET(SRCS MetalinkEditor.cpp Metalink.cpp MetalinkFile.cpp MetalinkSource.cpp
     MetalinkWriter.cpp Metalink4Writer.cpp Metalink3Writer.cpp
-    Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp util.cpp
-    HashContextImpl.cpp HashContext.cpp FileScan.cpp
-    ProgressDialogProgressListener.cpp)
+    Metalink4Reader.cpp Metalink3Reader.cpp XmlParser.cpp HashContextImpl.cpp
+    HashContext.cpp FileScan.cpp ProgressDialogProgressListener.cpp)
 
 # Build application
 SET(APP_SRCS ${SRCS} main.cpp MainFrame.cpp LicenseFrame.cpp StartPanel.cpp

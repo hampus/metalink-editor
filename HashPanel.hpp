@@ -3,6 +3,7 @@
 
 #include "MetalinkEditor.hpp"
 #include <wx/wx.h>
+#include <wx/listctrl.h>
 
 class HashPanel : public wxPanel
 {

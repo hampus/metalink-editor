@@ -1,5 +1,4 @@
 #include "GeneralPanel.hpp"
-#include "util.hpp"
 #include "common.hpp"
 
 BEGIN_EVENT_TABLE(GeneralPanel, wxScrolledWindow)

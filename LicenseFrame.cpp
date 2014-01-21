@@ -1,12 +1,12 @@
 #include "LicenseFrame.hpp"
-#include "util.hpp"
+#include <wx/stdpaths.h>
 #include <wx/html/htmlwin.h>
 
 LicenseFrame::LicenseFrame()
     : wxFrame((wxFrame *)0, -1, wxT(""), wxDefaultPosition, wxDefaultSize)
 {
     // License file
-    wxStandardPaths stdpaths = get_stdpaths();
+    const wxStandardPaths& stdpaths(wxStandardPaths::Get());
     wxFileName file(stdpaths.GetDataDir(), wxT("legal.htm"));
     // Create HTML widget
     wxHtmlWindow* htmlwin = new wxHtmlWindow(this);
